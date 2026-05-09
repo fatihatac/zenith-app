@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { theme } from '../../../constants/theme';
 import { SignalIntel } from '../../../types/signal';
 
 interface SignalCardProps {
@@ -8,17 +9,52 @@ interface SignalCardProps {
 
 export const SignalCard: React.FC<SignalCardProps> = ({ signal }) => {
   return (
-    <View className="bg-[#1A1A1A] border border-white/5 rounded-xl p-6 flex-col mb-4">
-      <View className="flex-row justify-between items-center w-full mb-3">
-        <Text className="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest">{signal.category}</Text>
-        <Text className="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest">{signal.timestamp}</Text>
+    <View style={styles.card}>
+      <View style={styles.header}>
+        <Text style={styles.category}>{signal.category}</Text>
+        <Text style={styles.timestamp}>{signal.timestamp}</Text>
       </View>
-      <Text className="font-title-sm text-[18px] text-primary leading-tight mb-3">
-        {signal.title}
-      </Text>
-      <Text className="font-body-md text-on-surface-variant leading-relaxed">
-        {signal.description}
-      </Text>
+      <Text style={styles.title}>{signal.title}</Text>
+      <Text style={styles.description}>{signal.description}</Text>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  card: {
+    backgroundColor: '#1A1A1A',
+    borderWidth: 1,
+    borderColor: theme.colors.innerStroke,
+    borderRadius: theme.roundness.xl, // 24px
+    padding: 24,
+    marginBottom: 16,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  category: {
+    ...theme.typography.labelCaps,
+    color: theme.colors.onSurfaceVariant,
+    textTransform: 'uppercase',
+  },
+  timestamp: {
+    ...theme.typography.labelCaps,
+    color: theme.colors.onSurfaceVariant,
+    textTransform: 'uppercase',
+  },
+  title: {
+    ...theme.typography.titleSm,
+    color: theme.colors.primary,
+    fontWeight: '600',
+    marginBottom: 12,
+    lineHeight: 22,
+  },
+  description: {
+    ...theme.typography.bodyMd,
+    color: theme.colors.onSurfaceVariant,
+    lineHeight: 24,
+  },
+});

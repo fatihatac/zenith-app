@@ -1,22 +1,58 @@
 import { Lock } from 'lucide-react-native';
 import React from 'react';
-import { Text, View } from 'react-native';
-import { VaultStatus } from '../../../types/vault';
+import { StyleSheet, Text, View } from 'react-native';
+import { theme } from '../../../constants/theme';
 
-interface VaultStatusCardProps {
-  status: VaultStatus;
-}
-
-export const VaultStatusCard: React.FC<VaultStatusCardProps> = ({ status }) => {
+export const VaultStatusCard: React.FC<{ status: any }> = ({ status }) => {
   return (
-    <View className="bg-[#1A1A1A] border border-white/5 rounded-xl p-6 flex-row items-center gap-5 mb-2">
-      <View className="bg-white/5 p-4 rounded-full items-center justify-center border border-emerald-400/20">
-        <Lock color="#34d399" size={24} />
+    <View style={styles.card}>
+      <View style={styles.iconContainer}>
+        <Lock color={theme.colors.emerald} size={24} />
       </View>
-      <View className="flex-col gap-1">
-        <Text className="font-title-sm text-[20px] text-primary font-medium leading-none">{status.title}</Text>
-        <Text className="font-body-md text-sm text-emerald-400 font-medium tracking-wide">{status.status}</Text>
+      <View style={styles.textContainer}>
+        <Text style={styles.title}>Local Vault</Text>
+        <Text style={styles.statusText}>E2E ENCRYPTION ACTIVE</Text>
       </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  card: {
+    backgroundColor: '#1A1A1A',
+    borderWidth: 1,
+    borderColor: theme.colors.innerStroke,
+    borderRadius: theme.roundness.xl, // 24px
+    padding: 24,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 20,
+    marginBottom: 8,
+  },
+  iconContainer: {
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    padding: 16,
+    borderRadius: theme.roundness.full,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(16, 185, 129, 0.2)', // Emerald tint
+  },
+  textContainer: {
+    flexDirection: 'column',
+    gap: 4,
+  },
+  title: {
+    ...theme.typography.titleSm,
+    fontSize: 20,
+    color: theme.colors.primary,
+    fontWeight: '500',
+    lineHeight: 20,
+  },
+  statusText: {
+    ...theme.typography.labelCaps,
+    color: theme.colors.emerald,
+    fontWeight: '600',
+    letterSpacing: 1,
+  },
+});

@@ -1,22 +1,49 @@
 import { Menu, Search } from 'lucide-react-native';
 import React from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { theme } from '../../../constants/theme';
 
 interface MainHeaderProps {
   onMenuPress: () => void;
-  title?: string;
 }
 
-export const MainHeader: React.FC<MainHeaderProps> = ({ onMenuPress, title = 'ZENITH' }) => {
+export const MainHeader: React.FC<MainHeaderProps> = ({ onMenuPress }) => {
   return (
-    <View className="absolute top-0 left-0 right-0 w-full flex-row justify-between items-center px-margin-mobile pt-14 pb-4 border-b border-white/5 bg-background/80 z-50">
-      <Pressable className="p-2 -ml-2 active:opacity-50" onPress={onMenuPress}>
-        <Menu color="#ffffff" size={24} />
+    <View style={styles.header}>
+      <Pressable style={styles.iconButton} onPress={onMenuPress}>
+        <Menu color={theme.colors.primary} size={24} />
       </Pressable>
-      <Text className="font-display-lg text-[24px] font-semibold tracking-tighter text-primary">{title}</Text>
-      <Pressable className="p-2 -mr-2 active:opacity-50">
-        <Search color="#ffffff" size={24} />
+
+      <Text style={styles.logoText}>ZENITH</Text>
+
+      <Pressable style={styles.iconButton}>
+        <Search color={theme.colors.primary} size={24} />
       </Pressable>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  header: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: theme.spacing.marginMobile,
+    paddingTop: 56, // Safe Area + Padding
+    paddingBottom: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.innerStroke,
+    backgroundColor: theme.colors.background,
+    zIndex: 50,
+  },
+  iconButton: {
+    padding: 8,
+    marginHorizontal: -8,
+  },
+  logoText: {
+    ...theme.typography.headlineMd,
+    color: theme.colors.primary,
+    fontWeight: '700',
+  },
+});

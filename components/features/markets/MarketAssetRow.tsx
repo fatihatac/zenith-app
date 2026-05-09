@@ -1,24 +1,68 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { theme } from '../../../constants/theme';
 import { MarketAsset } from '../../../types/market';
 
 interface MarketAssetRowProps {
   asset: MarketAsset;
+  isLast?: boolean;
 }
 
-export const MarketAssetRow: React.FC<MarketAssetRowProps> = ({ asset }) => {
+export const MarketAssetRow: React.FC<MarketAssetRowProps> = ({ asset, isLast }) => {
+  const isPositive = asset.change.startsWith('+');
+
   return (
-    <View className="flex-row justify-between items-center py-4 px-4 border-b border-white/5 w-full last:border-0">
-      <View className="flex-col gap-1">
-        <Text className="font-title-sm text-[18px] text-primary leading-none">{asset.symbol}</Text>
-        <Text className="font-body-md text-sm text-on-surface-variant leading-none">{asset.name}</Text>
+    <View style={[styles.row, !isLast && styles.borderBottom]}>
+      <View>
+        <Text style={styles.symbol}>{asset.symbol}</Text>
+        <Text style={styles.name}>{asset.name}</Text>
       </View>
-      <View className="flex-col items-end gap-1">
-        <Text className="font-title-sm text-[18px] text-primary tabular-nums leading-none">{asset.price}</Text>
-        <Text className={`font-body-md text-sm font-medium leading-none ${asset.isPositive ? 'text-emerald-400' : 'text-error'}`}>
+      <View style={styles.priceContainer}>
+        <Text style={styles.price}>{asset.price}</Text>
+        <Text style={[styles.change, { color: isPositive ? theme.colors.emerald : theme.colors.error }]}>
           {asset.change}
         </Text>
       </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+  },
+  borderBottom: {
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.innerStroke,
+  },
+  symbol: {
+    ...theme.typography.titleSm,
+    color: theme.colors.primary,
+    fontWeight: '600',
+  },
+  name: {
+    ...theme.typography.labelCaps,
+    color: theme.colors.onSurfaceVariant,
+    textTransform: 'none',
+    marginTop: 2,
+    letterSpacing: 0,
+  },
+  priceContainer: {
+    // DÜZELTME: 'end' değeri React Native'de 'flex-end' olarak kullanılmalıdır
+    alignItems: 'flex-end',
+  },
+  price: {
+    ...theme.typography.titleSm,
+    color: theme.colors.primary,
+    fontWeight: '600',
+  },
+  change: {
+    ...theme.typography.labelCaps,
+    fontWeight: '700',
+    marginTop: 2,
+  },
+});

@@ -53,9 +53,9 @@ module.exports = {
         "primary-fixed-dim": "#c6c6c7"
       },
       borderRadius: {
-        DEFAULT: "0.25rem",
-        lg: "0.5rem",
-        xl: "0.75rem",
+        DEFAULT: "4px",
+        lg: "8px",
+        xl: "12px",
         full: "9999px"
       },
       spacing: {
@@ -76,11 +76,11 @@ module.exports = {
         "title-sm": ["Inter"]
       },
       fontSize: {
-        "body-md": ["16px", { lineHeight: "25px", letterSpacing: 0.16, fontWeight: "400" }],
-        "label-caps": ["12px", { lineHeight: "12px", letterSpacing: 0.96, fontWeight: "600" }],
-        "headline-md": ["24px", { lineHeight: "28px", letterSpacing: -0.24, fontWeight: "500" }],
-        "display-lg": ["40px", { lineHeight: "44px", letterSpacing: -0.8, fontWeight: "600" }],
-        "title-sm": ["18px", { lineHeight: "25px", letterSpacing: 0, fontWeight: "500" }]
+        "body-md": ["16px", { lineHeight: "25px", letterSpacing: "0.16px", fontWeight: "400" }],
+        "label-caps": ["12px", { lineHeight: "12px", letterSpacing: "0.96px", fontWeight: "600" }],
+        "headline-md": ["24px", { lineHeight: "28px", letterSpacing: "-0.24px", fontWeight: "500" }],
+        "display-lg": ["40px", { lineHeight: "44px", letterSpacing: "-0.8px", fontWeight: "600" }],
+        "title-sm": ["18px", { lineHeight: "25px", letterSpacing: "0px", fontWeight: "500" }]
       }
     }
   },

@@ -1,17 +1,63 @@
 import { Plus, Terminal } from 'lucide-react-native';
 import React from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { theme } from '../../../constants/theme';
 
 export const FloatingActionButtons: React.FC = () => {
   return (
-    <View pointerEvents="box-none" className="absolute bottom-28 right-margin-mobile flex-row items-center gap-3 z-40">
-      <Pressable className="bg-primary rounded-full px-5 py-3 flex-row items-center gap-2 shadow-lg active:scale-95 transition-all">
-        <Terminal color="#2f3131" size={18} />
-        <Text className="font-title-sm text-sm font-medium text-on-primary">Command</Text>
+    <View pointerEvents="box-none" style={styles.container}>
+      {/* Command Button */}
+      <Pressable style={styles.commandButton}>
+        <Terminal color={theme.colors.onPrimary} size={18} />
+        <Text style={styles.commandText}>Command</Text>
       </Pressable>
-      <Pressable className="bg-surface-container-high border border-white/10 rounded-full w-12 h-12 items-center justify-center active:scale-95 transition-all">
-        <Plus color="#ffffff" size={24} />
+
+      {/* Add Button */}
+      <Pressable style={styles.addButton}>
+        <Plus color={theme.colors.primary} size={24} />
       </Pressable>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    position: 'absolute',
+    bottom: 112, // BottomBar'ın üstünde durması için
+    right: 24,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    zIndex: 40,
+  },
+  commandButton: {
+    backgroundColor: theme.colors.primary,
+    borderRadius: theme.roundness.full,
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  commandText: {
+    ...theme.typography.titleSm,
+    fontSize: 14,
+    color: theme.colors.onPrimary,
+    fontWeight: '500',
+  },
+  addButton: {
+    backgroundColor: theme.colors.surfaceContainerHigh,
+    borderWidth: 1,
+    borderColor: theme.colors.innerStroke,
+    borderRadius: theme.roundness.full,
+    width: 48,
+    height: 48,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

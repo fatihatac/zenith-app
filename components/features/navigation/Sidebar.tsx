@@ -1,6 +1,19 @@
 import { Activity, Cloud, Database, Lock, Palette, X, Zap } from 'lucide-react-native';
 import React from 'react';
-import { Modal, Pressable, ScrollView, Text, View } from 'react-native';
+import {
+  Dimensions,
+  Modal,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { theme } from '../../../constants/theme';
+
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 interface SidebarProps {
   isOpen: boolean;
@@ -8,80 +21,74 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
-  return (
-    <Modal visible={isOpen} transparent={true} animationType="fade" onRequestClose={onClose}>
-      <View className="flex-1 flex-row">
-        <Pressable className="flex-1 bg-black/40 absolute inset-0 z-10" onPress={onClose} />
+  const insets = useSafeAreaInsets();
 
-        <View className="h-full w-[80%] max-w-sm rounded-r-xl border-r border-outline-variant bg-surface flex-col p-md gap-sm absolute left-0 top-0 z-20 shadow-2xl">
+  return (
+    <Modal
+      visible={isOpen}
+      transparent={true}
+      animationType="fade"
+      onRequestClose={onClose}
+      statusBarTranslucent={true} // Arka planın kararması için true kalmalı
+    >
+      <View style={styles.modalContainer}>
+        {/* Backdrop (Arka planı karartan alan) */}
+        <Pressable style={styles.backdrop} onPress={onClose} />
+
+        {/* Drawer Container - DÜZELTME: Dinamik Konumlandırma */}
+        <View
+          style={[
+            styles.drawer,
+            {
+              // Çekmeceyi sistem çubuğunun bittiği yerden başlatıyoruz
+              top: insets.top,
+              // Boyunu kalan ekran kadar ayarlıyoruz
+              height: SCREEN_HEIGHT - insets.top
+            }
+          ]}
+        >
           {/* Header */}
-          <View className="mb-lg pt-sm flex-row justify-between items-start">
+          <View style={styles.header}>
             <View>
-              <Text className="font-display-lg text-display-lg text-primary tracking-tighter mb-xs">
-                ZENITH <Text className="font-title-sm text-title-sm text-on-surface-variant">PRO</Text>
+              <Text style={styles.brandTitle}>
+                ZENITH <Text style={styles.proText}>PRO</Text>
               </Text>
-              <View className="flex-row items-center gap-xs">
-                <View
-                  className="w-2 h-2 rounded-full bg-[#10b981]"
-                  style={{ shadowColor: '#10b981', shadowOpacity: 0.8, shadowRadius: 8, elevation: 4 }}
-                />
-                <Text className="font-label-caps text-label-caps text-on-surface-variant">E2E Encryption Active</Text>
+              <View style={styles.statusRow}>
+                <View style={styles.statusDot} />
+                <Text style={styles.statusText}>E2E Encryption Active</Text>
               </View>
             </View>
-            <Pressable onPress={onClose} className="p-2 -mr-4 -mt-2 active:opacity-50">
-              <X color="#c4c7c8" size={24} />
+            <Pressable onPress={onClose} style={styles.closeButton}>
+              <X color={theme.colors.onSurfaceVariant} size={24} />
             </Pressable>
           </View>
 
           {/* Navigation List */}
-          <ScrollView showsVerticalScrollIndicator={false} className="flex-1 pr-xs">
-            <View className="flex-col gap-unit">
-              <Pressable className="flex-row items-center gap-sm px-sm py-xs rounded-full active:bg-surface-container-high transition-colors">
-                <Cloud color="#c4c7c8" size={24} strokeWidth={1.5} />
-                <Text className="font-title-sm text-title-sm text-on-surface-variant">Account & Sync</Text>
-              </Pressable>
+          <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollArea}>
+            <View style={styles.navGroup}>
+              <SidebarItem icon={Cloud} label="Account & Sync" />
+              <SidebarItem icon={Database} label="Data Sources & API" />
 
-              <Pressable className="flex-row items-center gap-sm px-sm py-xs rounded-full active:bg-surface-container-high transition-colors">
-                <Database color="#c4c7c8" size={24} strokeWidth={1.5} />
-                <Text className="font-title-sm text-title-sm text-on-surface-variant">Data Sources & API</Text>
-              </Pressable>
-
-              {/* Active / Expanded Section */}
-              <View className="flex-col">
-                <Pressable className="flex-row items-center gap-sm px-sm py-xs bg-primary-container rounded-full active:opacity-80 transition-colors">
-                  <Activity color="#636565" size={24} strokeWidth={2} />
-                  <Text className="font-title-sm text-title-sm font-bold text-on-primary-container">Engine & Telemetry</Text>
-                </Pressable>
-
-                <View className="pl-[44px] pr-sm py-xs mt-unit">
-                  <View className="bg-surface-container-low border border-outline-variant rounded-md p-xs flex-col gap-unit">
-                    <Text className="font-label-caps text-label-caps text-on-surface-variant tracking-wider uppercase">
-                      Telemetry Data
-                    </Text>
-                    <Text className="font-mono text-[10px] text-primary tracking-widest leading-relaxed">
-                      CPU: 45°C | TPL: Active | FIVR: -50mV
-                    </Text>
-                  </View>
+              <View style={styles.activeSection}>
+                <SidebarItem icon={Activity} label="Engine & Telemetry" active />
+                <View style={styles.telemetryCard}>
+                  <Text style={styles.telemetryTitle}>Telemetry Data</Text>
+                  <Text style={styles.telemetryContent}>
+                    CPU: 45°C | TPL: Active | FIVR: -50mV
+                  </Text>
                 </View>
               </View>
 
-              <Pressable className="flex-row items-center gap-sm px-sm py-xs rounded-full active:bg-surface-container-high transition-colors">
-                <Zap color="#c4c7c8" size={24} strokeWidth={1.5} />
-                <Text className="font-title-sm text-title-sm text-on-surface-variant">Focus Automations</Text>
-              </Pressable>
-
-              <Pressable className="flex-row items-center gap-sm px-sm py-xs rounded-full active:bg-surface-container-high transition-colors">
-                <Palette color="#c4c7c8" size={24} strokeWidth={1.5} />
-                <Text className="font-title-sm text-title-sm text-on-surface-variant">Appearance</Text>
-              </Pressable>
+              <SidebarItem icon={Zap} label="Focus Automations" />
+              <SidebarItem icon={Palette} label="Appearance" />
             </View>
           </ScrollView>
 
-          {/* Footer */}
-          <View className="mt-auto pt-md border-t border-outline-variant/30 pb-safe">
-            <Pressable className="w-full flex-row justify-center items-center gap-xs py-sm rounded-full active:bg-surface-container transition-colors">
-              <Lock color="#c4c7c8" size={18} strokeWidth={2} />
-              <Text className="font-label-caps text-label-caps text-on-surface-variant">Lock Vault & Exit</Text>
+          {/* Footer - Güvenli Alan Payı (insets.bottom) */}
+          <View style={[styles.footer, { paddingBottom: insets.bottom > 0 ? insets.bottom : 20 }]}>
+            <Pressable style={styles.lockButton}>
+              <Lock color={theme.colors.onSurfaceVariant} size={18} strokeWidth={2} />
+              <Text style={styles.lockText}>Lock Vault & Exit</Text>
             </Pressable>
           </View>
         </View>
@@ -89,3 +96,149 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     </Modal>
   );
 };
+
+const SidebarItem = ({ icon: Icon, label, active = false }: any) => (
+  <Pressable style={[styles.navItem, active && styles.activeNavItem]}>
+    <Icon
+      color={active ? theme.colors.onPrimaryContainer : theme.colors.onSurfaceVariant}
+      size={24}
+      strokeWidth={active ? 2 : 1.5}
+    />
+    <Text style={[styles.navLabel, active && styles.activeNavLabel]}>{label}</Text>
+  </Pressable>
+);
+
+const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  backdrop: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: theme.colors.backdrop,
+  },
+  drawer: {
+    position: 'absolute',
+    left: 0,
+    width: SCREEN_WIDTH * 0.8,
+    maxWidth: 360,
+    backgroundColor: theme.colors.surface, // #131313
+    borderRightWidth: 1,
+    borderColor: theme.colors.outlineVariant, // #444748
+    // DÜZELTME: Kavisler artık StatusBar'ın altında kalacak
+    borderTopRightRadius: theme.roundness.xl, // 24px
+    borderBottomRightRadius: 0, // Alt kısmı düz bırakmak daha "pro" durur
+    paddingHorizontal: theme.spacing.md,
+    paddingTop: theme.spacing.md, // İçerik boşluğu
+    shadowColor: '#000',
+    shadowOffset: { width: 10, height: 0 },
+    shadowOpacity: 0.3,
+    shadowRadius: 20,
+    elevation: 10,
+  },
+  header: {
+    marginBottom: theme.spacing.lg,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+  },
+  brandTitle: {
+    ...theme.typography.displayLg,
+    color: theme.colors.primary,
+    marginBottom: theme.spacing.xs,
+    lineHeight: 44, // Kesilmeyi önler
+  },
+  proText: {
+    ...theme.typography.titleSm,
+    color: theme.colors.onSurfaceVariant,
+  },
+  statusRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: theme.spacing.xs,
+  },
+  statusDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: theme.colors.emerald,
+    shadowColor: theme.colors.emerald,
+    shadowOpacity: 0.8,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  statusText: {
+    ...theme.typography.labelCaps,
+    color: theme.colors.onSurfaceVariant,
+  },
+  closeButton: {
+    padding: 8,
+    marginRight: -16,
+    marginTop: -8,
+  },
+  scrollArea: {
+    flex: 1,
+  },
+  navGroup: {
+    gap: 4,
+  },
+  navItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: theme.spacing.sm,
+    paddingHorizontal: theme.spacing.sm,
+    paddingVertical: 12,
+    borderRadius: theme.roundness.default,
+  },
+  activeNavItem: {
+    backgroundColor: theme.colors.primaryContainer,
+  },
+  navLabel: {
+    ...theme.typography.titleSm,
+    color: theme.colors.onSurfaceVariant,
+  },
+  activeNavLabel: {
+    color: theme.colors.onPrimaryContainer,
+    fontWeight: '700',
+  },
+  activeSection: {
+    marginVertical: 4,
+  },
+  telemetryCard: {
+    marginLeft: 44,
+    backgroundColor: theme.colors.surfaceContainerLow,
+    borderWidth: 1,
+    borderColor: theme.colors.outlineVariant,
+    borderRadius: theme.roundness.sm,
+    padding: theme.spacing.xs,
+    marginTop: 4,
+  },
+  telemetryTitle: {
+    ...theme.typography.labelCaps,
+    color: theme.colors.onSurfaceVariant,
+    marginBottom: 4,
+  },
+  telemetryContent: {
+    fontSize: 10,
+    color: theme.colors.primary,
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+    letterSpacing: 1,
+  },
+  footer: {
+    marginTop: 'auto',
+    paddingTop: theme.spacing.md,
+    borderTopWidth: 1,
+    borderTopColor: theme.colors.innerStroke,
+  },
+  lockButton: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 8,
+    paddingVertical: 16,
+  },
+  lockText: {
+    ...theme.typography.labelCaps,
+    color: theme.colors.onSurfaceVariant,
+  },
+});

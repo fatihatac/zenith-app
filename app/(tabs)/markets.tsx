@@ -1,19 +1,46 @@
 import React from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { MarketAssetRow } from '../../components/features/markets/MarketAssetRow';
+import { theme } from '../../constants/theme';
 import { useMarkets } from '../../hooks/useMarkets';
 
 export default function MarketsScreen() {
-  const { assets } = useMarkets();
+    const { assets } = useMarkets();
 
-  return (
-    <ScrollView className="flex-1 bg-background pt-24 px-margin-mobile pb-32" showsVerticalScrollIndicator={false}>
-      {/* Financial Asset List Container */}
-      <View className="bg-[#1A1A1A] border border-white/5 rounded-xl p-2 flex-col w-full">
-        {assets.map((asset) => (
-          <MarketAssetRow key={asset.id} asset={asset} />
-        ))}
-      </View>
-    </ScrollView>
-  );
+    return (
+        <ScrollView
+            style={styles.container}
+            contentContainerStyle={styles.contentContainer}
+            showsVerticalScrollIndicator={false}
+        >
+            <View style={styles.listContainer}>
+                {assets.map((asset, index) => (
+                    <MarketAssetRow
+                        key={asset.id}
+                        asset={asset}
+                        isLast={index === assets.length - 1}
+                    />
+                ))}
+            </View>
+        </ScrollView>
+    );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: theme.colors.background,
+    },
+    contentContainer: {
+        paddingTop: 20,
+        paddingHorizontal: theme.spacing.marginMobile,
+        paddingBottom: 120,
+    },
+    listContainer: {
+        backgroundColor: '#1A1A1A',
+        borderWidth: 1,
+        borderColor: theme.colors.innerStroke,
+        borderRadius: theme.roundness.xl,
+        overflow: 'hidden',
+    },
+});
