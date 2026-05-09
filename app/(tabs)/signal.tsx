@@ -1,4 +1,3 @@
-import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { SignalCard } from '../../components/features/signal/SignalCard';
 import { theme } from '../../constants/theme';

@@ -1,5 +1,4 @@
 import { Tabs } from 'expo-router';
-import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { CustomBottomBar } from '../../components/features/navigation/CustomBottomBar';
 import { FloatingActionButtons } from '../../components/features/navigation/FloatingActionButtons';
@@ -19,8 +18,6 @@ export default function TabsLayout() {
       {/* TABS ENGINE */}
       <View style={styles.tabsWrapper}>
         <Tabs
-          // DÜZELTME: sceneContainerStyle'ı sildik çünkü tip çakışması yaratıyor.
-          // Arka plan rengini zaten her sayfanın kendi 'container' stilinde yönettik.
           tabBar={(props) => <CustomBottomBar {...props} />}
           screenOptions={{
             headerShown: false,
@@ -45,7 +42,7 @@ export default function TabsLayout() {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: theme.colors.background, // Ana kapsayıcıyı siyah yaparak olası boşlukları kapattık
+    backgroundColor: theme.colors.background,
   },
   tabsWrapper: {
     flex: 1,

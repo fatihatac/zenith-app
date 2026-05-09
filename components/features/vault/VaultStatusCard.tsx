@@ -31,24 +31,24 @@ interface VaultStatusCardStyles {
 
 const styles = StyleSheet.create<VaultStatusCardStyles>({
   card: {
-    backgroundColor: '#1A1A1A',
+    backgroundColor: theme.colors.surfaceContainerLow,
     borderWidth: 1,
     borderColor: theme.colors.innerStroke,
     borderRadius: theme.roundness.xl,
-    padding: 24,
+    padding: theme.spacing.md,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 20,
     marginBottom: 8,
   },
   iconContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    padding: 16,
+    backgroundColor: theme.colors.innerStroke,
+    padding: theme.spacing.sm,
     borderRadius: theme.roundness.full,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: 'rgba(16, 185, 129, 0.2)',
+    borderColor: theme.colors.emeraldMuted,
   },
   textContainer: {
     flexDirection: 'column',

@@ -26,7 +26,9 @@ export const theme = {
     background: '#131313',
     onBackground: '#e2e2e2',
     emerald: '#10b981',
+    emeraldMuted: 'rgba(16, 185, 129, 0.2)',
     innerStroke: 'rgba(255, 255, 255, 0.05)',
+    surfaceHighlight: 'rgba(255, 255, 255, 0.1)',
     backdrop: 'rgba(0, 0, 0, 0.4)',
   },
   spacing: {

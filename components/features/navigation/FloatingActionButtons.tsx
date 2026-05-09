@@ -1,9 +1,8 @@
 import { Plus, Terminal } from 'lucide-react-native';
-import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { theme } from '../../../constants/theme';
 
-export const FloatingActionButtons: React.FC = () => {
+export const FloatingActionButtons = () => {
   return (
     <View pointerEvents="box-none" style={styles.container}>
       {/* Command Button */}

@@ -2,7 +2,7 @@ export interface VaultItem {
   id: string;
   title: string;
   subtitle: string;
-  icon: string;
+  icon: 'key' | 'file-text' | 'folder-open';
 }
 
 export interface VaultStatus {

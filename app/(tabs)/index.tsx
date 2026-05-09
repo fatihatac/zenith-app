@@ -1,4 +1,3 @@
-import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SystemLogItem } from '../../components/features/focus/SystemLogItem';
 import { WorkSessionWidget } from '../../components/features/focus/WorkSessionWidget';

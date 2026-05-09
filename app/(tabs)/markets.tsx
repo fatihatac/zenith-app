@@ -1,4 +1,3 @@
-import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { MarketAssetRow } from '../../components/features/markets/MarketAssetRow';
 import { theme } from '../../constants/theme';
@@ -37,7 +36,7 @@ const styles = StyleSheet.create({
         paddingBottom: 120,
     },
     listContainer: {
-        backgroundColor: '#1A1A1A',
+        backgroundColor: theme.colors.surfaceContainerLow,
         borderWidth: 1,
         borderColor: theme.colors.innerStroke,
         borderRadius: theme.roundness.xl,

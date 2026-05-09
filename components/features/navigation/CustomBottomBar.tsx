@@ -85,6 +85,6 @@ const styles = StyleSheet.create<CustomBottomBarStyles>({
     flex: 1,
   },
   activeTabButton: {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    backgroundColor: theme.colors.surfaceHighlight,
   },
 });

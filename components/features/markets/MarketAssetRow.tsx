@@ -1,4 +1,3 @@
-import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { theme } from '../../../constants/theme';
 import { MarketAsset } from '../../../types/market';
@@ -8,7 +7,7 @@ interface MarketAssetRowProps {
   isLast?: boolean;
 }
 
-export const MarketAssetRow: React.FC<MarketAssetRowProps> = ({ asset, isLast }) => {
+export const MarketAssetRow = ({ asset, isLast }: MarketAssetRowProps) => {
   const isPositive = asset.change.startsWith('+');
 
   return (
