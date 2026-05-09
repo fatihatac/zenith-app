@@ -1,8 +1,7 @@
-import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View, ViewStyle, TextStyle } from 'react-native';
 import { theme } from '../../../constants/theme';
 
-export const WorkSessionWidget: React.FC = () => {
+export const WorkSessionWidget = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Deep Work Session</Text>
@@ -16,13 +15,21 @@ export const WorkSessionWidget: React.FC = () => {
   );
 };
 
-const styles = StyleSheet.create({
+interface WorkSessionWidgetStyles {
+  container: ViewStyle;
+  label: TextStyle;
+  timerText: TextStyle;
+  startButton: ViewStyle;
+  buttonText: TextStyle;
+}
+
+const styles = StyleSheet.create<WorkSessionWidgetStyles>({
   container: {
     backgroundColor: theme.colors.surfaceContainer,
     borderWidth: 1,
     borderColor: theme.colors.innerStroke,
-    borderRadius: theme.roundness.xl, // 24px
-    padding: theme.spacing.lg, // 40px
+    borderRadius: theme.roundness.xl,
+    padding: theme.spacing.lg,
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: 300,
@@ -33,6 +40,7 @@ const styles = StyleSheet.create({
     color: theme.colors.onSurfaceVariant,
     textTransform: 'uppercase',
     marginBottom: theme.spacing.md,
+    lineHeight: 16, // Increased from 12
   },
   timerText: {
     ...theme.typography.displayLg,
@@ -52,5 +60,6 @@ const styles = StyleSheet.create({
     ...theme.typography.titleSm,
     color: theme.colors.onPrimary,
     fontWeight: '600',
+    lineHeight: 24, // Increased from 18
   },
 });

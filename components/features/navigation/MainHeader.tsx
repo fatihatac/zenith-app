@@ -1,15 +1,17 @@
 import { Menu, Search } from 'lucide-react-native';
-import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View, ViewStyle, TextStyle } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { theme } from '../../../constants/theme';
 
 interface MainHeaderProps {
   onMenuPress: () => void;
 }
 
-export const MainHeader: React.FC<MainHeaderProps> = ({ onMenuPress }) => {
+export const MainHeader = ({ onMenuPress }: MainHeaderProps) => {
+  const insets = useSafeAreaInsets();
+
   return (
-    <View style={styles.header}>
+    <View style={[styles.header, { paddingTop: insets.top + 16 }]}>
       <Pressable style={styles.iconButton} onPress={onMenuPress}>
         <Menu color={theme.colors.primary} size={24} />
       </Pressable>
@@ -23,14 +25,19 @@ export const MainHeader: React.FC<MainHeaderProps> = ({ onMenuPress }) => {
   );
 };
 
-const styles = StyleSheet.create({
+interface MainHeaderStyles {
+  header: ViewStyle;
+  iconButton: ViewStyle;
+  logoText: TextStyle;
+}
+
+const styles = StyleSheet.create<MainHeaderStyles>({
   header: {
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: theme.spacing.marginMobile,
-    paddingTop: 56, // Safe Area + Padding
     paddingBottom: 16,
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.innerStroke,
@@ -45,5 +52,6 @@ const styles = StyleSheet.create({
     ...theme.typography.headlineMd,
     color: theme.colors.primary,
     fontWeight: '700',
+    lineHeight: 32, // Increased from 28
   },
 });

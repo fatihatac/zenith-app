@@ -1,6 +1,5 @@
 import { Cloud, ShieldCheck } from 'lucide-react-native';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ViewStyle, TextStyle } from 'react-native';
 import { theme } from '../../../constants/theme';
 
 interface SystemLogItemProps {
@@ -10,7 +9,7 @@ interface SystemLogItemProps {
   time: string;
 }
 
-export const SystemLogItem: React.FC<SystemLogItemProps> = ({ icon, title, description, time }) => {
+export const SystemLogItem = ({ icon, title, description, time }: SystemLogItemProps) => {
   const IconComponent = icon === 'cloud' ? Cloud : ShieldCheck;
 
   return (
@@ -25,13 +24,21 @@ export const SystemLogItem: React.FC<SystemLogItemProps> = ({ icon, title, descr
   );
 };
 
-const styles = StyleSheet.create({
+interface SystemLogItemStyles {
+  container: ViewStyle;
+  content: ViewStyle;
+  title: TextStyle;
+  description: TextStyle;
+  timeText: TextStyle;
+}
+
+const styles = StyleSheet.create<SystemLogItemStyles>({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: theme.spacing.sm,
     borderBottomWidth: 1,
-    borderBottomColor: theme.colors.onSurfaceVariant,
+    borderBottomColor: theme.colors.outlineVariant, // Updated to outlineVariant
   },
   content: {
     flex: 1,
@@ -41,14 +48,13 @@ const styles = StyleSheet.create({
     ...theme.typography.bodyMd,
     color: theme.colors.primary,
     fontWeight: '500',
-    lineHeight: 20,
+    lineHeight: 22, // Increased from 20
   },
   description: {
     ...theme.typography.labelCaps,
-    fontSize: 14,
     color: theme.colors.onSurfaceVariant,
     marginTop: 2,
-    letterSpacing: 0,
+    letterSpacing: 0.16, // Matches bodyMd letter spacing for better readability in lists
     textTransform: 'none',
     lineHeight: 18,
   },
@@ -56,5 +62,6 @@ const styles = StyleSheet.create({
     ...theme.typography.labelCaps,
     fontSize: 10,
     color: theme.colors.onSurfaceVariant,
+    lineHeight: 14, // Increased
   },
 });

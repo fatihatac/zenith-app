@@ -1,6 +1,5 @@
 import { ChevronRight, FileText, FolderOpen, Key } from 'lucide-react-native';
-import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View, ViewStyle, TextStyle } from 'react-native';
 import { theme } from '../../../constants/theme';
 import { VaultItem } from '../../../types/vault';
 
@@ -8,7 +7,7 @@ interface VaultItemRowProps {
   item: VaultItem;
 }
 
-export const VaultItemRow: React.FC<VaultItemRowProps> = ({ item }) => {
+export const VaultItemRow = ({ item }: VaultItemRowProps) => {
   let IconComponent = Key;
   if (item.icon === 'file-text') IconComponent = FileText;
   if (item.icon === 'folder-open') IconComponent = FolderOpen;
@@ -27,12 +26,20 @@ export const VaultItemRow: React.FC<VaultItemRowProps> = ({ item }) => {
   );
 };
 
-const styles = StyleSheet.create({
+interface VaultItemRowStyles {
+  row: ViewStyle;
+  contentLeft: ViewStyle;
+  textContainer: ViewStyle;
+  title: TextStyle;
+  subtitle: TextStyle;
+}
+
+const styles = StyleSheet.create<VaultItemRowStyles>({
   row: {
-    backgroundColor: '#1A1A1A',
+    backgroundColor: theme.colors.surfaceContainerLow,
     borderWidth: 1,
     borderColor: theme.colors.innerStroke,
-    borderRadius: theme.roundness.xl, // 24px
+    borderRadius: theme.roundness.xl,
     padding: 16,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -52,7 +59,7 @@ const styles = StyleSheet.create({
     ...theme.typography.titleSm,
     fontSize: 16,
     color: theme.colors.primary,
-    lineHeight: 16,
+    lineHeight: 22, // Increased from 16
   },
   subtitle: {
     ...theme.typography.labelCaps,
@@ -60,6 +67,6 @@ const styles = StyleSheet.create({
     color: theme.colors.onSurfaceVariant,
     textTransform: 'none',
     letterSpacing: 0,
-    lineHeight: 12,
+    lineHeight: 16, // Increased from 12
   },
 });

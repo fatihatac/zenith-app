@@ -1,22 +1,22 @@
+import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { Compass, Home, LineChart, Lock } from 'lucide-react-native';
-import React from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View, ViewStyle } from 'react-native';
 import { theme } from '../../../constants/theme';
 
-interface CustomBottomBarProps {
-  state: any;
-  navigation: any;
-}
-
-export const CustomBottomBar: React.FC<CustomBottomBarProps> = ({ state, navigation }) => {
+export const CustomBottomBar = ({ state, navigation }: BottomTabBarProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.bar}>
-        {state.routes.map((route: any, index: number) => {
+        {state.routes.map((route, index) => {
           const isFocused = state.index === index;
 
           const onPress = () => {
-            const event = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
+            const event = navigation.emit({
+              type: 'tabPress',
+              target: route.key,
+              canPreventDefault: true,
+            });
+
             if (!isFocused && !event.defaultPrevented) {
               navigation.navigate(route.name);
             }
@@ -45,7 +45,14 @@ export const CustomBottomBar: React.FC<CustomBottomBarProps> = ({ state, navigat
   );
 };
 
-const styles = StyleSheet.create({
+interface CustomBottomBarStyles {
+  container: ViewStyle;
+  bar: ViewStyle;
+  tabButton: ViewStyle;
+  activeTabButton: ViewStyle;
+}
+
+const styles = StyleSheet.create<CustomBottomBarStyles>({
   container: {
     position: 'absolute',
     bottom: 24,
@@ -63,7 +70,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: theme.colors.innerStroke,
     borderRadius: theme.roundness.full,
-    // Shadow for depth
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 10 },
     shadowOpacity: 0.3,
@@ -76,7 +82,7 @@ const styles = StyleSheet.create({
     borderRadius: theme.roundness.full,
     alignItems: 'center',
     justifyContent: 'center',
-    flex: 11,
+    flex: 1,
   },
   activeTabButton: {
     backgroundColor: 'rgba(255, 255, 255, 0.1)',

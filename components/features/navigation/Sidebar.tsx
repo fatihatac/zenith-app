@@ -1,5 +1,4 @@
-import { Activity, Cloud, Database, Lock, Palette, X, Zap } from 'lucide-react-native';
-import React from 'react';
+import { Activity, Cloud, Database, Lock, LucideIcon, Palette, X, Zap } from 'lucide-react-native';
 import {
   Dimensions,
   Modal,
@@ -8,7 +7,9 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  View
+  TextStyle,
+  View,
+  ViewStyle
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { theme } from '../../../constants/theme';
@@ -20,7 +21,7 @@ interface SidebarProps {
   onClose: () => void;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
+export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
   const insets = useSafeAreaInsets();
 
   return (
@@ -29,20 +30,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       transparent={true}
       animationType="fade"
       onRequestClose={onClose}
-      statusBarTranslucent={true} // Arka planın kararması için true kalmalı
+      statusBarTranslucent={true}
     >
       <View style={styles.modalContainer}>
-        {/* Backdrop (Arka planı karartan alan) */}
         <Pressable style={styles.backdrop} onPress={onClose} />
 
-        {/* Drawer Container - DÜZELTME: Dinamik Konumlandırma */}
         <View
           style={[
             styles.drawer,
             {
-              // Çekmeceyi sistem çubuğunun bittiği yerden başlatıyoruz
               top: insets.top,
-              // Boyunu kalan ekran kadar ayarlıyoruz
               height: SCREEN_HEIGHT - insets.top
             }
           ]}
@@ -84,8 +81,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             </View>
           </ScrollView>
 
-          {/* Footer - Güvenli Alan Payı (insets.bottom) */}
-          <View style={[styles.footer, { paddingBottom: insets.bottom > 0 ? insets.bottom : 20 }]}>
+          {/* Footer */}
+          <View style={[styles.footer, { paddingBottom: Math.max(insets.bottom, 20) }]}>
             <Pressable style={styles.lockButton}>
               <Lock color={theme.colors.onSurfaceVariant} size={18} strokeWidth={2} />
               <Text style={styles.lockText}>Lock Vault & Exit</Text>
@@ -97,7 +94,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   );
 };
 
-const SidebarItem = ({ icon: Icon, label, active = false }: any) => (
+interface SidebarItemProps {
+  icon: LucideIcon;
+  label: string;
+  active?: boolean;
+}
+
+const SidebarItem = ({ icon: Icon, label, active = false }: SidebarItemProps) => (
   <Pressable style={[styles.navItem, active && styles.activeNavItem]}>
     <Icon
       color={active ? theme.colors.onPrimaryContainer : theme.colors.onSurfaceVariant}
@@ -108,7 +111,33 @@ const SidebarItem = ({ icon: Icon, label, active = false }: any) => (
   </Pressable>
 );
 
-const styles = StyleSheet.create({
+interface SidebarStyles {
+  modalContainer: ViewStyle;
+  backdrop: ViewStyle;
+  drawer: ViewStyle;
+  header: ViewStyle;
+  brandTitle: TextStyle;
+  proText: TextStyle;
+  statusRow: ViewStyle;
+  statusDot: ViewStyle;
+  statusText: TextStyle;
+  closeButton: ViewStyle;
+  scrollArea: ViewStyle;
+  navGroup: ViewStyle;
+  navItem: ViewStyle;
+  activeNavItem: ViewStyle;
+  navLabel: TextStyle;
+  activeNavLabel: TextStyle;
+  activeSection: ViewStyle;
+  telemetryCard: ViewStyle;
+  telemetryTitle: TextStyle;
+  telemetryContent: TextStyle;
+  footer: ViewStyle;
+  lockButton: ViewStyle;
+  lockText: TextStyle;
+}
+
+const styles = StyleSheet.create<SidebarStyles>({
   modalContainer: {
     flex: 1,
     flexDirection: 'row',
@@ -122,14 +151,13 @@ const styles = StyleSheet.create({
     left: 0,
     width: SCREEN_WIDTH * 0.8,
     maxWidth: 360,
-    backgroundColor: theme.colors.surface, // #131313
+    backgroundColor: theme.colors.surface,
     borderRightWidth: 1,
-    borderColor: theme.colors.outlineVariant, // #444748
-    // DÜZELTME: Kavisler artık StatusBar'ın altında kalacak
-    borderTopRightRadius: theme.roundness.xl, // 24px
-    borderBottomRightRadius: 0, // Alt kısmı düz bırakmak daha "pro" durur
+    borderColor: theme.colors.outlineVariant,
+    borderTopRightRadius: theme.roundness.xl,
+    borderBottomRightRadius: 0,
     paddingHorizontal: theme.spacing.md,
-    paddingTop: theme.spacing.md, // İçerik boşluğu
+    paddingTop: theme.spacing.md,
     shadowColor: '#000',
     shadowOffset: { width: 10, height: 0 },
     shadowOpacity: 0.3,
@@ -146,11 +174,12 @@ const styles = StyleSheet.create({
     ...theme.typography.displayLg,
     color: theme.colors.primary,
     marginBottom: theme.spacing.xs,
-    lineHeight: 44, // Kesilmeyi önler
+    lineHeight: 48, // Increased to avoid clipping (fontSize is 40)
   },
   proText: {
     ...theme.typography.titleSm,
     color: theme.colors.onSurfaceVariant,
+    lineHeight: 22,
   },
   statusRow: {
     flexDirection: 'row',
@@ -170,6 +199,7 @@ const styles = StyleSheet.create({
   statusText: {
     ...theme.typography.labelCaps,
     color: theme.colors.onSurfaceVariant,
+    lineHeight: 16, // Increased from 12
   },
   closeButton: {
     padding: 8,
@@ -196,6 +226,7 @@ const styles = StyleSheet.create({
   navLabel: {
     ...theme.typography.titleSm,
     color: theme.colors.onSurfaceVariant,
+    lineHeight: 22,
   },
   activeNavLabel: {
     color: theme.colors.onPrimaryContainer,
@@ -217,12 +248,14 @@ const styles = StyleSheet.create({
     ...theme.typography.labelCaps,
     color: theme.colors.onSurfaceVariant,
     marginBottom: 4,
+    lineHeight: 16,
   },
   telemetryContent: {
     fontSize: 10,
     color: theme.colors.primary,
     fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
     letterSpacing: 1,
+    lineHeight: 14,
   },
   footer: {
     marginTop: 'auto',
@@ -240,5 +273,6 @@ const styles = StyleSheet.create({
   lockText: {
     ...theme.typography.labelCaps,
     color: theme.colors.onSurfaceVariant,
+    lineHeight: 16,
   },
 });
