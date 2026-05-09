@@ -20,10 +20,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    padding: 0,
   },
   link: {
-    marginTop: 15,
-    paddingVertical: 15,
+    marginTop: 0,
+    paddingVertical: 0,
   },
 });

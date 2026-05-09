@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ZENITH - Sidebar Menu</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed-variant": "#454747",
+                        "inverse-primary": "#5d5f5f",
+                        "surface-tint": "#c6c6c7",
+                        "error-container": "#93000a",
+                        "surface-container-highest": "#353535",
+                        "on-secondary": "#313030",
+                        "on-error": "#690005",
+                        "tertiary-fixed": "#e2e2e2",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "surface-container-low": "#1b1b1b",
+                        "primary": "#ffffff",
+                        "on-primary-container": "#636565",
+                        "on-surface-variant": "#c4c7c8",
+                        "inverse-on-surface": "#303030",
+                        "outline-variant": "#444748",
+                        "background": "#131313",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-bright": "#393939",
+                        "secondary": "#c8c6c5",
+                        "tertiary-container": "#e2e2e2",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "on-primary-fixed": "#1a1c1c",
+                        "surface": "#131313",
+                        "surface-container": "#1f1f1f",
+                        "on-secondary-fixed-variant": "#474746",
+                        "tertiary": "#ffffff",
+                        "outline": "#8e9192",
+                        "on-surface": "#e2e2e2",
+                        "primary-fixed": "#e2e2e2",
+                        "on-tertiary-container": "#636565",
+                        "on-tertiary": "#2f3131",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "on-background": "#e2e2e2",
+                        "surface-variant": "#353535",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "on-secondary-container": "#b7b5b4",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-lowest": "#0e0e0e",
+                        "inverse-surface": "#e2e2e2",
+                        "surface-dim": "#131313",
+                        "secondary-fixed": "#e5e2e1",
+                        "secondary-container": "#474746",
+                        "on-primary": "#2f3131",
+                        "primary-container": "#e2e2e2",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "error": "#ffb4ab"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "24px",
+                        "unit": "4px",
+                        "margin-mobile": "24px",
+                        "xl": "64px",
+                        "sm": "16px",
+                        "lg": "40px",
+                        "xs": "8px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "title-sm": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.08em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "display-lg": ["40px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "title-sm": ["18px", { "lineHeight": "1.4", "letterSpacing": "0em", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md h-screen w-screen overflow-hidden relative">
+<!-- Blurred Background Context -->
+<div class="absolute inset-0 z-0">
+<div class="h-full w-full bg-[url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=2070&amp;q=80')] bg-cover bg-center" data-alt="A highly abstract, dark, and minimalist digital dashboard interface. The scene is dominated by deep blacks and subtle dark grays, creating a sophisticated and serious mood. Faint, structured geometric lines and minimalist charts are barely visible, suggesting an advanced data analytics platform. The lighting is extremely low-key, contributing to a premium, quiet, and focused aesthetic suitable for a professional software environment.">
+</div>
+<div class="absolute inset-0 bg-background/80 backdrop-blur-md"></div>
+</div>
+<!-- Overlay to close drawer -->
+<div class="absolute inset-0 z-10 bg-black/40"></div>
+<!-- Navigation Drawer Container -->
+<div class="h-full w-[80%] max-w-sm rounded-r-xl border-r border-outline-variant flat no shadows bg-surface dark:bg-surface flex flex-col p-md gap-sm transition-all duration-300 ease-in-out absolute left-0 top-0 z-20 shadow-2xl">
+<!-- Header -->
+<div class="mb-lg pt-sm">
+<h2 class="font-display-lg text-display-lg text-primary tracking-tighter mb-xs">ZENITH <span class="text-on-surface-variant font-title-sm text-title-sm">PRO</span></h2>
+<div class="flex items-center gap-xs">
+<div class="w-2 h-2 rounded-full bg-[#10b981] shadow-[0_0_8px_#10b981]"></div>
+<span class="font-label-caps text-label-caps text-on-surface-variant">E2E Encryption Active</span>
+</div>
+</div>
+<!-- Navigation List -->
+<nav class="flex-1 overflow-y-auto space-y-unit pr-xs">
+<a class="flex items-center gap-sm px-sm py-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">cloud</span>
+<span class="font-title-sm text-title-sm">Account &amp; Sync</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">database</span>
+<span class="font-title-sm text-title-sm">Data Sources &amp; API</span>
+</a>
+<!-- Active / Expanded Section -->
+<div class="flex flex-col">
+<a class="flex items-center gap-sm px-sm py-xs bg-primary-container text-on-primary-container rounded-lg font-bold transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">search_activity</span>
+<span class="font-title-sm text-title-sm">Engine &amp; Telemetry</span>
+</a>
+<div class="pl-[44px] pr-sm py-xs mt-unit">
+<div class="bg-surface-container-low border border-outline-variant rounded-md p-xs flex flex-col gap-unit">
+<span class="font-label-caps text-label-caps text-on-surface-variant tracking-wider uppercase">Telemetry Data</span>
+<span class="font-mono text-[10px] text-primary tracking-widest leading-relaxed">
+                            CPU: 45°C | TPL: Active | FIVR: -50mV
+                        </span>
+</div>
+</div>
+</div>
+<a class="flex items-center gap-sm px-sm py-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">bolt</span>
+<span class="font-title-sm text-title-sm">Focus Automations</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">palette</span>
+<span class="font-title-sm text-title-sm">Appearance</span>
+</a>
+</nav>
+<!-- Footer -->
+<div class="mt-auto pt-md border-t border-outline-variant/30 pb-safe">
+<button class="w-full flex justify-center items-center gap-xs py-sm text-on-surface-variant hover:text-error transition-colors rounded-lg">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+<span class="font-label-caps text-label-caps">Lock Vault &amp; Exit</span>
+</button>
+</div>
+</div>
+</body></html>
