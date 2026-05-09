@@ -1,3 +1,4 @@
+import { usePathname, useRouter } from 'expo-router';
 import { Activity, Cloud, Database, Lock, LucideIcon, Palette, X, Zap } from 'lucide-react-native';
 import {
   Dimensions,
@@ -23,6 +24,15 @@ interface SidebarProps {
 
 export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
   const insets = useSafeAreaInsets();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const handleNavigation = (route: string) => {
+    onClose(); // KRİTİK: Modal'ı kapat ki yeni ekranı görebilelim!
+    router.push(route as any);
+  };
+
+  const isActive = (route: string) => pathname === route;
 
   return (
     <Modal
@@ -44,7 +54,6 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
             }
           ]}
         >
-          {/* Header */}
           <View style={styles.header}>
             <View>
               <Text style={styles.brandTitle}>
@@ -60,30 +69,55 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
             </Pressable>
           </View>
 
-          {/* Navigation List */}
           <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollArea}>
             <View style={styles.navGroup}>
-              <SidebarItem icon={Cloud} label="Account & Sync" />
-              <SidebarItem icon={Database} label="Data Sources & API" />
+              <SidebarItem
+                icon={Cloud}
+                label="Account & Sync"
+                active={isActive('/settings/account')}
+                onPress={() => handleNavigation('/settings/account')}
+              />
+              <SidebarItem
+                icon={Database}
+                label="Data Sources & API"
+                active={isActive('/settings/api')}
+                onPress={() => handleNavigation('/settings/api')}
+              />
 
-              <View style={styles.activeSection}>
-                <SidebarItem icon={Activity} label="Engine & Telemetry" active />
-                <View style={styles.telemetryCard}>
-                  <Text style={styles.telemetryTitle}>Telemetry Data</Text>
-                  <Text style={styles.telemetryContent}>
-                    CPU: 45°C | TPL: Active | FIVR: -50mV
-                  </Text>
-                </View>
+              <View style={isActive('/settings/telemetry') ? styles.activeSection : undefined}>
+                <SidebarItem
+                  icon={Activity}
+                  label="Engine & Telemetry"
+                  active={isActive('/settings/telemetry')}
+                  onPress={() => handleNavigation('/settings/telemetry')}
+                />
+                {isActive('/settings/telemetry') && (
+                  <View style={styles.telemetryCard}>
+                    <Text style={styles.telemetryTitle}>Telemetry Data</Text>
+                    <Text style={styles.telemetryContent}>
+                      CPU: 45°C | TPL: Active | FIVR: -50mV
+                    </Text>
+                  </View>
+                )}
               </View>
 
-              <SidebarItem icon={Zap} label="Focus Automations" />
-              <SidebarItem icon={Palette} label="Appearance" />
+              <SidebarItem
+                icon={Zap}
+                label="Focus Automations"
+                active={isActive('/settings/automations')}
+                onPress={() => handleNavigation('/settings/automations')}
+              />
+              <SidebarItem
+                icon={Palette}
+                label="Appearance"
+                active={isActive('/settings/appearance')}
+                onPress={() => handleNavigation('/settings/appearance')}
+              />
             </View>
           </ScrollView>
 
-          {/* Footer */}
           <View style={[styles.footer, { paddingBottom: Math.max(insets.bottom, 20) }]}>
-            <Pressable style={styles.lockButton}>
+            <Pressable style={styles.lockButton} onPress={onClose}>
               <Lock color={theme.colors.onSurfaceVariant} size={18} strokeWidth={2} />
               <Text style={styles.lockText}>Lock Vault & Exit</Text>
             </Pressable>
@@ -98,10 +132,14 @@ interface SidebarItemProps {
   icon: LucideIcon;
   label: string;
   active?: boolean;
+  onPress?: () => void;
 }
 
-const SidebarItem = ({ icon: Icon, label, active = false }: SidebarItemProps) => (
-  <Pressable style={[styles.navItem, active && styles.activeNavItem]}>
+const SidebarItem = ({ icon: Icon, label, active = false, onPress }: SidebarItemProps) => (
+  <Pressable
+    style={[styles.navItem, active && styles.activeNavItem]}
+    onPress={onPress}
+  >
     <Icon
       color={active ? theme.colors.onPrimaryContainer : theme.colors.onSurfaceVariant}
       size={24}
@@ -138,14 +176,8 @@ interface SidebarStyles {
 }
 
 const styles = StyleSheet.create<SidebarStyles>({
-  modalContainer: {
-    flex: 1,
-    flexDirection: 'row',
-  },
-  backdrop: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: theme.colors.backdrop,
-  },
+  modalContainer: { flex: 1, flexDirection: 'row' },
+  backdrop: { ...StyleSheet.absoluteFillObject, backgroundColor: theme.colors.backdrop },
   drawer: {
     position: 'absolute',
     left: 0,
@@ -155,124 +187,32 @@ const styles = StyleSheet.create<SidebarStyles>({
     borderRightWidth: 1,
     borderColor: theme.colors.outlineVariant,
     borderTopRightRadius: theme.roundness.xl,
-    borderBottomRightRadius: 0,
     paddingHorizontal: theme.spacing.md,
-    paddingTop: theme.spacing.md,
+    paddingTop: 20, // Kendi ayarın
     shadowColor: '#000',
     shadowOffset: { width: 10, height: 0 },
     shadowOpacity: 0.3,
     shadowRadius: 20,
     elevation: 10,
   },
-  header: {
-    marginBottom: theme.spacing.lg,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-  },
-  brandTitle: {
-    ...theme.typography.displayLg,
-    color: theme.colors.primary,
-    marginBottom: theme.spacing.xs,
-    lineHeight: 48, // Increased to avoid clipping (fontSize is 40)
-  },
-  proText: {
-    ...theme.typography.titleSm,
-    color: theme.colors.onSurfaceVariant,
-    lineHeight: 22,
-  },
-  statusRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: theme.spacing.xs,
-  },
-  statusDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: theme.colors.emerald,
-    shadowColor: theme.colors.emerald,
-    shadowOpacity: 0.8,
-    shadowRadius: 8,
-    elevation: 4,
-  },
-  statusText: {
-    ...theme.typography.labelCaps,
-    color: theme.colors.onSurfaceVariant,
-    lineHeight: 16, // Increased from 12
-  },
-  closeButton: {
-    padding: 8,
-    marginRight: -16,
-    marginTop: -8,
-  },
-  scrollArea: {
-    flex: 1,
-  },
-  navGroup: {
-    gap: 4,
-  },
-  navItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: theme.spacing.sm,
-    paddingHorizontal: theme.spacing.sm,
-    paddingVertical: 12,
-    borderRadius: theme.roundness.default,
-  },
-  activeNavItem: {
-    backgroundColor: theme.colors.primaryContainer,
-  },
-  navLabel: {
-    ...theme.typography.titleSm,
-    color: theme.colors.onSurfaceVariant,
-    lineHeight: 22,
-  },
-  activeNavLabel: {
-    color: theme.colors.onPrimaryContainer,
-    fontWeight: '700',
-  },
-  activeSection: {
-    marginVertical: 4,
-  },
-  telemetryCard: {
-    marginLeft: 44,
-    backgroundColor: theme.colors.surfaceContainerLow,
-    borderWidth: 1,
-    borderColor: theme.colors.outlineVariant,
-    borderRadius: theme.roundness.sm,
-    padding: theme.spacing.xs,
-    marginTop: 4,
-  },
-  telemetryTitle: {
-    ...theme.typography.labelCaps,
-    color: theme.colors.onSurfaceVariant,
-    marginBottom: 4,
-    lineHeight: 16,
-  },
-  telemetryContent: {
-    fontSize: 10,
-    color: theme.colors.primary,
-    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
-    letterSpacing: 1,
-    lineHeight: 14,
-  },
-  footer: {
-    marginTop: 'auto',
-    paddingTop: theme.spacing.md,
-    borderTopWidth: 1,
-    borderTopColor: theme.colors.innerStroke,
-  },
-  lockButton: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 8,
-    paddingVertical: 16,
-  },
-  lockText: {
-    ...theme.typography.labelCaps,
-    color: theme.colors.onSurfaceVariant,
-    lineHeight: 16,
-  },
+  header: { marginBottom: theme.spacing.lg, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
+  brandTitle: { ...theme.typography.displayLg, color: theme.colors.primary, marginBottom: theme.spacing.xs, lineHeight: 48 },
+  proText: { ...theme.typography.titleSm, color: theme.colors.onSurfaceVariant, lineHeight: 22 },
+  statusRow: { flexDirection: 'row', alignItems: 'center', gap: theme.spacing.xs },
+  statusDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: theme.colors.emerald },
+  statusText: { ...theme.typography.labelCaps, color: theme.colors.onSurfaceVariant, lineHeight: 16 },
+  closeButton: { padding: 8, marginRight: -16, marginTop: -8 },
+  scrollArea: { flex: 1 },
+  navGroup: { gap: 4 },
+  navItem: { flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm, paddingHorizontal: theme.spacing.sm, paddingVertical: 12, borderRadius: theme.roundness.default },
+  activeNavItem: { backgroundColor: theme.colors.primaryContainer },
+  navLabel: { ...theme.typography.titleSm, color: theme.colors.onSurfaceVariant, lineHeight: 22 },
+  activeNavLabel: { color: theme.colors.onPrimaryContainer, fontWeight: '700' },
+  activeSection: { marginVertical: 4 },
+  telemetryCard: { marginLeft: 44, backgroundColor: theme.colors.surfaceContainerLow, borderWidth: 1, borderColor: theme.colors.outlineVariant, borderRadius: theme.roundness.sm, padding: theme.spacing.xs, marginTop: 4 },
+  telemetryTitle: { ...theme.typography.labelCaps, color: theme.colors.onSurfaceVariant, marginBottom: 4, lineHeight: 16 },
+  telemetryContent: { fontSize: 10, color: theme.colors.primary, fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace', letterSpacing: 1, lineHeight: 14 },
+  footer: { marginTop: 'auto', paddingTop: theme.spacing.md, borderTopWidth: 1, borderTopColor: theme.colors.innerStroke },
+  lockButton: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 8, paddingVertical: 16 },
+  lockText: { ...theme.typography.labelCaps, color: theme.colors.onSurfaceVariant, lineHeight: 16 },
 });

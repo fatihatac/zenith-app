@@ -1,8 +1,11 @@
 import { Stack } from "expo-router";
 import { StatusBar, StyleSheet, View } from "react-native";
 import { theme } from "../constants/theme";
+import { useSidebar } from "../hooks/useSidebar";
 
 export default function RootLayout() {
+  const { isOpen, closeSidebar } = useSidebar();
+
   return (
     <View style={styles.container}>
       {/* StatusBar: Dijital sessizlik için arka planla bütünleşik.

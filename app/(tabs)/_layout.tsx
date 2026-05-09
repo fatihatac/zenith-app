@@ -3,12 +3,11 @@ import { StyleSheet, View } from 'react-native';
 import { CustomBottomBar } from '../../components/features/navigation/CustomBottomBar';
 import { FloatingActionButtons } from '../../components/features/navigation/FloatingActionButtons';
 import { MainHeader } from '../../components/features/navigation/MainHeader';
-import { Sidebar } from '../../components/features/navigation/Sidebar';
 import { theme } from '../../constants/theme';
 import { useSidebar } from '../../hooks/useSidebar';
 
 export default function TabsLayout() {
-  const { isSidebarOpen, openSidebar, closeSidebar } = useSidebar();
+  const { openSidebar } = useSidebar();
 
   return (
     <View style={styles.mainContainer}>
@@ -32,9 +31,6 @@ export default function TabsLayout() {
 
       {/* FLOATING ACTION BUTTONS */}
       <FloatingActionButtons />
-
-      {/* SIDEBAR MODAL */}
-      <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
     </View>
   );
 }

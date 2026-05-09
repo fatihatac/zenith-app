@@ -1,16 +1,15 @@
-import { useState } from 'react';
+import { create } from 'zustand';
 
-export const useSidebar = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+interface SidebarState {
+  isOpen: boolean;
+  openSidebar: () => void;
+  closeSidebar: () => void;
+  toggleSidebar: () => void;
+}
 
-  const openSidebar = () => setIsSidebarOpen(true);
-  const closeSidebar = () => setIsSidebarOpen(false);
-  const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
-
-  return {
-    isSidebarOpen,
-    openSidebar,
-    closeSidebar,
-    toggleSidebar,
-  };
-};
+export const useSidebar = create<SidebarState>((set) => ({
+  isOpen: false,
+  openSidebar: () => set({ isOpen: true }),
+  closeSidebar: () => set({ isOpen: false }),
+  toggleSidebar: () => set((state) => ({ isOpen: !state.isOpen })),
+}));
