@@ -1,16 +1,14 @@
 import { Stack } from "expo-router";
 import { StatusBar, StyleSheet, View } from "react-native";
-import { theme } from "../constants/theme";
-import { useSidebar } from "../hooks/useSidebar";
+import { theme } from "@/constants/theme";
+import { useSidebar } from "@/hooks/useSidebar";
+import { Sidebar } from "@/components/features/navigation/Sidebar";
 
 export default function RootLayout() {
   const { isOpen, closeSidebar } = useSidebar();
 
   return (
     <View style={styles.container}>
-      {/* StatusBar: Dijital sessizlik için arka planla bütünleşik.
-        iOS için light-content, Android için tema rengi.
-      */}
       <StatusBar
         barStyle="light-content"
         backgroundColor={theme.colors.background}
@@ -20,15 +18,14 @@ export default function RootLayout() {
       <Stack
         screenOptions={{
           headerShown: false,
-          // Stack seviyesinde içerik arka planını sabitliyoruz
           contentStyle: { backgroundColor: theme.colors.background }
         }}
       >
-        {/* Ana uygulama döngüsü (Tabs) */}
         <Stack.Screen name="(tabs)" />
-
-        {/* İleride eklenecek modal veya auth sayfaları buraya gelecek */}
       </Stack>
+
+      {/* Global Sidebar Component */}
+      <Sidebar isOpen={isOpen} onClose={closeSidebar} />
     </View>
   );
 }

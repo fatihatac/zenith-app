@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { theme } from '../../../constants/theme';
-import { MarketAsset } from '../../../types/market';
+import { theme } from '@/constants/theme';
+import { MarketAsset } from '@/types/market';
 
 interface MarketAssetRowProps {
   asset: MarketAsset;

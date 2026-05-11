@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { MarketAssetRow } from '../../components/features/markets/MarketAssetRow';
-import { theme } from '../../constants/theme';
-import { useMarkets } from '../../hooks/useMarkets';
+import { MarketAssetRow } from '@/components/features/markets/MarketAssetRow';
+import { theme } from '@/constants/theme';
+import { useMarkets } from '@/hooks/useMarkets';
 
 export default function MarketsScreen() {
     const { assets } = useMarkets();

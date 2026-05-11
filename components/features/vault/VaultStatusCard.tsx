@@ -1,7 +1,7 @@
 import { Lock } from 'lucide-react-native';
 import { StyleSheet, Text, View, ViewStyle, TextStyle } from 'react-native';
-import { theme } from '../../../constants/theme';
-import { VaultStatus } from '../../../types/vault';
+import { theme } from '@/constants/theme';
+import { VaultStatus } from '@/types/vault';
 
 interface VaultStatusCardProps {
   status: VaultStatus;

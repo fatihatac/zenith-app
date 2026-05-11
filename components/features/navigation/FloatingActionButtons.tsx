@@ -1,6 +1,6 @@
 import { Plus, Terminal } from 'lucide-react-native';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { theme } from '../../../constants/theme';
+import { theme } from '@/constants/theme';
 
 export const FloatingActionButtons = () => {
   return (

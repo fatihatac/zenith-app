@@ -1,8 +1,8 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { VaultItemRow } from '../../components/features/vault/VaultItemRow';
-import { VaultStatusCard } from '../../components/features/vault/VaultStatusCard';
-import { theme } from '../../constants/theme';
-import { useVault } from '../../hooks/useVault';
+import { VaultItemRow } from '@/components/features/vault/VaultItemRow';
+import { VaultStatusCard } from '@/components/features/vault/VaultStatusCard';
+import { theme } from '@/constants/theme';
+import { useVault } from '@/hooks/useVault';
 
 export default function VaultScreen() {
     const { items, status } = useVault();

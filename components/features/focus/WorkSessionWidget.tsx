@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, Text, View, ViewStyle, TextStyle } from 'react-native';
-import { theme } from '../../../constants/theme';
+import { theme } from '@/constants/theme';
 
 export const WorkSessionWidget = () => {
   return (

@@ -1,7 +1,8 @@
+import { Cloud, ShieldCheck } from 'lucide-react-native';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { SystemLogItem } from '../../components/features/focus/SystemLogItem';
-import { WorkSessionWidget } from '../../components/features/focus/WorkSessionWidget';
-import { theme } from '../../constants/theme';
+import { SystemLogItem } from '@/components/features/focus/SystemLogItem';
+import { WorkSessionWidget } from '@/components/features/focus/WorkSessionWidget';
+import { theme } from '@/constants/theme';
 
 export default function FocusScreen() {
   return (
@@ -15,13 +16,13 @@ export default function FocusScreen() {
       <View style={styles.logSection}>
         <Text style={styles.sectionHeader}>System Log</Text>
         <SystemLogItem
-          icon="cloud"
+          icon={Cloud}
           title="Backup Completed"
           description="System vault encrypted and synced."
           time="10m ago"
         />
         <SystemLogItem
-          icon="shield"
+          icon={ShieldCheck}
           title="New Device Authorized"
           description="MacBook Pro (14-inch, 2023) added to trusted keys."
           time="2h ago"

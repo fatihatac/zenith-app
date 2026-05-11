@@ -1,7 +1,7 @@
 import { Menu, Search } from 'lucide-react-native';
 import { Pressable, StyleSheet, Text, View, ViewStyle, TextStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { theme } from '../../../constants/theme';
+import { theme } from '@/constants/theme';
 
 interface MainHeaderProps {
   onMenuPress: () => void;

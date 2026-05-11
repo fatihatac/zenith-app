@@ -1,7 +1,7 @@
 import { ChevronRight, FileText, FolderOpen, Key } from 'lucide-react-native';
 import { Pressable, StyleSheet, Text, View, ViewStyle, TextStyle } from 'react-native';
-import { theme } from '../../../constants/theme';
-import { VaultItem } from '../../../types/vault';
+import { theme } from '@/constants/theme';
+import { VaultItem } from '@/types/vault';
 
 interface VaultItemRowProps {
   item: VaultItem;

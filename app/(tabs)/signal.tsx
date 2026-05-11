@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet } from 'react-native';
-import { SignalCard } from '../../components/features/signal/SignalCard';
-import { theme } from '../../constants/theme';
-import { useSignals } from '../../hooks/useSignals';
+import { SignalCard } from '@/components/features/signal/SignalCard';
+import { theme } from '@/constants/theme';
+import { useSignals } from '@/hooks/useSignals';
 
 export default function SignalScreen() {
     const { signals } = useSignals();

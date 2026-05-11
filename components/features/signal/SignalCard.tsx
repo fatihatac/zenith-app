@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, ViewStyle, TextStyle } from 'react-native';
-import { theme } from '../../../constants/theme';
-import { SignalIntel } from '../../../types/signal';
+import { theme } from '@/constants/theme';
+import { SignalIntel } from '@/types/signal';
 
 interface SignalCardProps {
   signal: SignalIntel;
