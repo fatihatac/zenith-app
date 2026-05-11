@@ -8,5 +8,4 @@ export interface VaultItem {
 export interface VaultStatus {
   title: string;
   status: string;
-  isActive: boolean;
 }

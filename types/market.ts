@@ -4,5 +4,4 @@ export interface MarketAsset {
   name: string;
   price: string;
   change: string;
-  isPositive: boolean;
 }

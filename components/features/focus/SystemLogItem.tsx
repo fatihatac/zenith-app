@@ -1,16 +1,15 @@
-import { Cloud, ShieldCheck } from 'lucide-react-native';
+import { type LucideIcon } from 'lucide-react-native';
 import { StyleSheet, Text, View, ViewStyle, TextStyle } from 'react-native';
-import { theme } from '../../../constants/theme';
+import { theme } from '@/constants/theme';
 
 interface SystemLogItemProps {
-  icon: 'cloud' | 'shield';
+  icon: LucideIcon;
   title: string;
   description: string;
   time: string;
 }
 
-export const SystemLogItem = ({ icon, title, description, time }: SystemLogItemProps) => {
-  const IconComponent = icon === 'cloud' ? Cloud : ShieldCheck;
+export const SystemLogItem = ({ icon: IconComponent, title, description, time }: SystemLogItemProps) => {
 
   return (
     <View style={styles.container}>
