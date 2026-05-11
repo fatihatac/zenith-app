@@ -1,19 +1,16 @@
-import { useEffect, useState } from 'react';
-import { getVaultItems, getVaultStatus } from '../services/vaultService';
-import { VaultItem, VaultStatus } from '../types/vault';
+import { useEffect } from 'react';
+import { useVaultStore } from '@/store/vaultStore';
 
 export const useVault = () => {
-  const [items, setItems] = useState<VaultItem[]>([]);
-  const [status, setStatus] = useState<VaultStatus | null>(null);
+  const items = useVaultStore((s) => s.items);
+  const status = useVaultStore((s) => s.status);
+  const loading = useVaultStore((s) => s.loading);
+  const error = useVaultStore((s) => s.error);
+  const fetchVaultData = useVaultStore((s) => s.fetchVaultData);
 
   useEffect(() => {
-    // Simulate data fetching
-    setItems(getVaultItems());
-    setStatus(getVaultStatus());
-  }, []);
+    fetchVaultData();
+  }, [fetchVaultData]);
 
-  return {
-    items,
-    status,
-  };
+  return { items, status, loading, error, refresh: fetchVaultData };
 };

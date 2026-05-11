@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react';
-import { getMarketAssets } from '../services/marketService';
-import { MarketAsset } from '../types/market';
+import { useEffect } from 'react';
+import { useMarketStore } from '@/store/marketStore';
 
 export const useMarkets = () => {
-  const [assets, setAssets] = useState<MarketAsset[]>([]);
+  const assets = useMarketStore((s) => s.assets);
+  const loading = useMarketStore((s) => s.loading);
+  const error = useMarketStore((s) => s.error);
+  const fetchAssets = useMarketStore((s) => s.fetchAssets);
 
   useEffect(() => {
-    setAssets(getMarketAssets());
-  }, []);
+    fetchAssets();
+  }, [fetchAssets]);
 
-  return {
-    assets,
-  };
+  return { assets, loading, error, refresh: fetchAssets };
 };

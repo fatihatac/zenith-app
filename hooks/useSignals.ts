@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react';
-import { getSignals } from '../services/signalService';
-import { SignalIntel } from '../types/signal';
+import { useEffect } from 'react';
+import { useSignalStore } from '@/store/signalStore';
 
 export const useSignals = () => {
-  const [signals, setSignals] = useState<SignalIntel[]>([]);
+  const signals = useSignalStore((s) => s.signals);
+  const loading = useSignalStore((s) => s.loading);
+  const error = useSignalStore((s) => s.error);
+  const fetchSignals = useSignalStore((s) => s.fetchSignals);
 
   useEffect(() => {
-    setSignals(getSignals());
-  }, []);
+    fetchSignals();
+  }, [fetchSignals]);
 
-  return {
-    signals,
-  };
+  return { signals, loading, error, refresh: fetchSignals };
 };

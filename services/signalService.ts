@@ -1,6 +1,7 @@
-import { SignalIntel } from '../types/signal';
+import { SignalIntel } from '@/types/signal';
+import { ISignalRepository } from '@/interfaces/ISignalRepository';
 
-export const getSignals = (): SignalIntel[] => [
+const MOCK_SIGNALS: SignalIntel[] = [
   {
     id: '1',
     category: 'Global Markets',
@@ -23,3 +24,17 @@ export const getSignals = (): SignalIntel[] => [
     description: 'A landmark pact signed today is expected to reroute significant manufacturing capacity, prioritizing regional resilience over traditional cost-optimization strategies.',
   },
 ];
+
+export class SignalRepository implements ISignalRepository {
+  async getSignals(): Promise<SignalIntel[]> {
+    return Promise.resolve(MOCK_SIGNALS);
+  }
+}
+
+const signalRepository = new SignalRepository();
+
+export const signalRepo = signalRepository;
+
+export const getSignals = (): Promise<SignalIntel[]> => {
+  return signalRepository.getSignals();
+};
