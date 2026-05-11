@@ -1,7 +1,7 @@
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import { Compass, Home, LineChart, Lock } from 'lucide-react-native';
+import { TAB_CONFIG } from '@/constants/navigation';
 import { Pressable, StyleSheet, View, ViewStyle } from 'react-native';
-import { theme } from '../../../constants/theme';
+import { theme } from '@/constants/theme';
 
 export const CustomBottomBar = ({ state, navigation }: BottomTabBarProps) => {
   return (
@@ -22,10 +22,7 @@ export const CustomBottomBar = ({ state, navigation }: BottomTabBarProps) => {
             }
           };
 
-          let IconComponent = Home;
-          if (route.name === 'signal') IconComponent = Compass;
-          if (route.name === 'markets') IconComponent = LineChart;
-          if (route.name === 'vault') IconComponent = Lock;
+          const { icon: Icon } = TAB_CONFIG[route.name];
 
           return (
             <Pressable
@@ -33,7 +30,7 @@ export const CustomBottomBar = ({ state, navigation }: BottomTabBarProps) => {
               onPress={onPress}
               style={[styles.tabButton, isFocused && styles.activeTabButton]}
             >
-              <IconComponent
+              <Icon
                 color={isFocused ? theme.colors.primary : theme.colors.onSurfaceVariant}
                 size={24}
               />

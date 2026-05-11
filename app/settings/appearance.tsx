@@ -1,7 +1,9 @@
 import { SubHeader } from '@/components/features/navigation/SubHeader';
+import { SettingRow } from '@/components/ui/SettingRow';
+import ThemeOption from '@/components/features/settings/ThemeOption';
 import { Eye, Layout, Sparkles, Type } from 'lucide-react-native';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { theme } from '../../constants/theme';
+import { theme } from '@/constants/theme';
 
 export default function AppearanceScreen() {
     return (
@@ -27,9 +29,9 @@ export default function AppearanceScreen() {
                 <View style={styles.section}>
                     <Text style={styles.sectionLabel}>TYPOGRAPHY SCALE</Text>
                     <View style={styles.card}>
-                        <SettingRow icon={Type} label="Font Scale" value="100%" />
+                        <SettingRow icon={Type} label="Font Scale" value="100%" valueColor={theme.colors.emerald} />
                         <View style={styles.divider} />
-                        <SettingRow icon={Eye} label="Reading Focus" value="ENABLED" />
+                        <SettingRow icon={Eye} label="Reading Focus" value="ENABLED" valueColor={theme.colors.emerald} />
                     </View>
                 </View>
 
@@ -37,9 +39,9 @@ export default function AppearanceScreen() {
                 <View style={styles.section}>
                     <Text style={styles.sectionLabel}>INTERFACE DENSITY</Text>
                     <View style={styles.card}>
-                        <SettingRow icon={Layout} label="Layout Mode" value="GENEROUS" />
+                        <SettingRow icon={Layout} label="Layout Mode" value="GENEROUS" valueColor={theme.colors.emerald} />
                         <View style={styles.divider} />
-                        <SettingRow icon={Sparkles} label="Visual Effects" value="MINIMAL" />
+                        <SettingRow icon={Sparkles} label="Visual Effects" value="MINIMAL" valueColor={theme.colors.emerald} />
                     </View>
                 </View>
 
@@ -58,24 +60,6 @@ export default function AppearanceScreen() {
     );
 }
 
-// Alt Bileşenler
-const ThemeOption = ({ label, color, active = false }: any) => (
-    <Pressable style={[styles.themeOption, active && styles.activeTheme]}>
-        <View style={[styles.colorPreview, { backgroundColor: color }]} />
-        <Text style={styles.optionLabel}>{label}</Text>
-    </Pressable>
-);
-
-const SettingRow = ({ icon: Icon, label, value }: any) => (
-    <View style={styles.settingRow}>
-        <View style={styles.rowLead}>
-            <Icon size={20} color={theme.colors.onSurfaceVariant} />
-            <Text style={styles.rowLabel}>{label}</Text>
-        </View>
-        <Text style={styles.rowValue}>{value}</Text>
-    </View>
-);
-
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: theme.colors.background },
     content: { padding: theme.spacing.md, paddingTop: 20 },
@@ -92,23 +76,6 @@ const styles = StyleSheet.create({
         marginBottom: 16
     },
     optionGrid: { flexDirection: 'row', gap: 12 },
-    themeOption: {
-        flex: 1,
-        backgroundColor: theme.colors.surfaceContainerLow,
-        padding: 12,
-        borderRadius: theme.roundness.md,
-        borderWidth: 1,
-        borderColor: theme.colors.innerStroke,
-        alignItems: 'center'
-    },
-    activeTheme: { borderColor: theme.colors.primary },
-    colorPreview: {
-        width: '100%',
-        height: 40,
-        borderRadius: theme.roundness.sm,
-        marginBottom: 8
-    },
-    optionLabel: { ...theme.typography.labelCaps, fontSize: 10, color: theme.colors.primary },
     card: {
         backgroundColor: theme.colors.surfaceContainerLow,
         borderRadius: theme.roundness.xl,
@@ -116,15 +83,6 @@ const styles = StyleSheet.create({
         borderColor: theme.colors.innerStroke,
         overflow: 'hidden'
     },
-    settingRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 16
-    },
-    rowLead: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-    rowLabel: { ...theme.typography.titleSm, fontSize: 16, color: theme.colors.primary },
-    rowValue: { ...theme.typography.labelCaps, color: theme.colors.emerald },
     divider: { height: 1, backgroundColor: theme.colors.innerStroke, marginHorizontal: 16 },
     experimentalCard: { padding: 16, marginTop: theme.spacing.md, backgroundColor: '#0A0A0A' },
     experimentalTitle: { ...theme.typography.labelCaps, color: theme.colors.emerald, marginBottom: 8 },

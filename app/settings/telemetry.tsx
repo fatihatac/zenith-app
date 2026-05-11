@@ -1,7 +1,8 @@
 import { Activity, Cpu, Thermometer, Zap } from 'lucide-react-native';
 import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { SubHeader } from '../../components/features/navigation/SubHeader';
-import { theme } from '../../constants/theme';
+import { SubHeader } from '@/components/features/navigation/SubHeader';
+import StatCard from '@/components/features/settings/StatCard';
+import { theme } from '@/constants/theme';
 
 export default function TelemetryScreen() {
     return (
@@ -58,18 +59,6 @@ export default function TelemetryScreen() {
     );
 }
 
-// Alt Bileşen: İstatistik Kartı
-const StatCard = ({ icon: Icon, label, value, subValue, color = theme.colors.primary }: any) => (
-    <View style={styles.statCard}>
-        <View style={styles.statHeader}>
-            <Icon size={16} color={theme.colors.onSurfaceVariant} />
-            <Text style={styles.statLabel}>{label}</Text>
-        </View>
-        <Text style={[styles.statValue, { color }]}>{value}</Text>
-        <Text style={styles.statSubValue}>{subValue}</Text>
-    </View>
-);
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -90,36 +79,6 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         gap: 12,
         marginBottom: theme.spacing.lg
-    },
-    statCard: {
-        width: '48%',
-        backgroundColor: theme.colors.surfaceContainerLow,
-        padding: 16,
-        borderRadius: theme.roundness.md,
-        borderWidth: 1,
-        borderColor: theme.colors.innerStroke
-    },
-    statHeader: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 6,
-        marginBottom: 8
-    },
-    statLabel: {
-        ...theme.typography.labelCaps,
-        fontSize: 10,
-        color: theme.colors.onSurfaceVariant
-    },
-    statValue: {
-        ...theme.typography.titleSm,
-        fontSize: 20,
-        fontWeight: '700'
-    },
-    statSubValue: {
-        ...theme.typography.labelCaps,
-        fontSize: 8,
-        color: theme.colors.outline,
-        marginTop: 2
     },
     sectionLabel: {
         ...theme.typography.labelCaps,

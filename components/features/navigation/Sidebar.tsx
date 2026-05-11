@@ -1,5 +1,5 @@
 import { usePathname, useRouter } from 'expo-router';
-import { Activity, Cloud, Database, Lock, LucideIcon, Palette, X, Zap } from 'lucide-react-native';
+import { Lock, X } from 'lucide-react-native';
 import {
   Dimensions,
   Modal,
@@ -13,7 +13,9 @@ import {
   ViewStyle
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { theme } from '../../../constants/theme';
+import { SIDEBAR_ITEMS } from '@/constants/navigation';
+import { theme } from '@/constants/theme';
+import { SidebarItem } from './SidebarItem';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -71,48 +73,35 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
 
           <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollArea}>
             <View style={styles.navGroup}>
-              <SidebarItem
-                icon={Cloud}
-                label="Account & Sync"
-                active={isActive('/settings/account')}
-                onPress={() => handleNavigation('/settings/account')}
-              />
-              <SidebarItem
-                icon={Database}
-                label="Data Sources & API"
-                active={isActive('/settings/api')}
-                onPress={() => handleNavigation('/settings/api')}
-              />
-
-              <View style={isActive('/settings/telemetry') ? styles.activeSection : undefined}>
-                <SidebarItem
-                  icon={Activity}
-                  label="Engine & Telemetry"
-                  active={isActive('/settings/telemetry')}
-                  onPress={() => handleNavigation('/settings/telemetry')}
-                />
-                {isActive('/settings/telemetry') && (
-                  <View style={styles.telemetryCard}>
-                    <Text style={styles.telemetryTitle}>Telemetry Data</Text>
-                    <Text style={styles.telemetryContent}>
-                      CPU: 45°C | TPL: Active | FIVR: -50mV
-                    </Text>
-                  </View>
-                )}
-              </View>
-
-              <SidebarItem
-                icon={Zap}
-                label="Focus Automations"
-                active={isActive('/settings/automations')}
-                onPress={() => handleNavigation('/settings/automations')}
-              />
-              <SidebarItem
-                icon={Palette}
-                label="Appearance"
-                active={isActive('/settings/appearance')}
-                onPress={() => handleNavigation('/settings/appearance')}
-              />
+              {SIDEBAR_ITEMS.map((item) => {
+                if (item.expandableContent) {
+                  return (
+                    <View key={item.route} style={isActive(item.route) ? styles.activeSection : undefined}>
+                      <SidebarItem
+                        icon={item.icon}
+                        label={item.label}
+                        active={isActive(item.route)}
+                        onPress={() => handleNavigation(item.route)}
+                      />
+                      {isActive(item.route) && (
+                        <View style={styles.telemetryCard}>
+                          <Text style={styles.telemetryTitle}>{item.expandableContent.title}</Text>
+                          <Text style={styles.telemetryContent}>{item.expandableContent.content}</Text>
+                        </View>
+                      )}
+                    </View>
+                  );
+                }
+                return (
+                  <SidebarItem
+                    key={item.route}
+                    icon={item.icon}
+                    label={item.label}
+                    active={isActive(item.route)}
+                    onPress={() => handleNavigation(item.route)}
+                  />
+                );
+              })}
             </View>
           </ScrollView>
 
@@ -128,27 +117,6 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
   );
 };
 
-interface SidebarItemProps {
-  icon: LucideIcon;
-  label: string;
-  active?: boolean;
-  onPress?: () => void;
-}
-
-const SidebarItem = ({ icon: Icon, label, active = false, onPress }: SidebarItemProps) => (
-  <Pressable
-    style={[styles.navItem, active && styles.activeNavItem]}
-    onPress={onPress}
-  >
-    <Icon
-      color={active ? theme.colors.onPrimaryContainer : theme.colors.onSurfaceVariant}
-      size={24}
-      strokeWidth={active ? 2 : 1.5}
-    />
-    <Text style={[styles.navLabel, active && styles.activeNavLabel]}>{label}</Text>
-  </Pressable>
-);
-
 interface SidebarStyles {
   modalContainer: ViewStyle;
   backdrop: ViewStyle;
@@ -162,10 +130,6 @@ interface SidebarStyles {
   closeButton: ViewStyle;
   scrollArea: ViewStyle;
   navGroup: ViewStyle;
-  navItem: ViewStyle;
-  activeNavItem: ViewStyle;
-  navLabel: TextStyle;
-  activeNavLabel: TextStyle;
   activeSection: ViewStyle;
   telemetryCard: ViewStyle;
   telemetryTitle: TextStyle;
@@ -204,10 +168,6 @@ const styles = StyleSheet.create<SidebarStyles>({
   closeButton: { padding: 8, marginRight: -16, marginTop: -8 },
   scrollArea: { flex: 1 },
   navGroup: { gap: 4 },
-  navItem: { flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm, paddingHorizontal: theme.spacing.sm, paddingVertical: 12, borderRadius: theme.roundness.default },
-  activeNavItem: { backgroundColor: theme.colors.primaryContainer },
-  navLabel: { ...theme.typography.titleSm, color: theme.colors.onSurfaceVariant, lineHeight: 22 },
-  activeNavLabel: { color: theme.colors.onPrimaryContainer, fontWeight: '700' },
   activeSection: { marginVertical: 4 },
   telemetryCard: { marginLeft: 44, backgroundColor: theme.colors.surfaceContainerLow, borderWidth: 1, borderColor: theme.colors.outlineVariant, borderRadius: theme.roundness.sm, padding: theme.spacing.xs, marginTop: 4 },
   telemetryTitle: { ...theme.typography.labelCaps, color: theme.colors.onSurfaceVariant, marginBottom: 4, lineHeight: 16 },

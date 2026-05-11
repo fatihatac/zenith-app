@@ -1,7 +1,8 @@
 import { SubHeader } from '@/components/features/navigation/SubHeader';
 import { BellOff, Clock, Smartphone, Zap } from 'lucide-react-native';
-import { ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
-import { theme } from '../../constants/theme';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import AutomationRow from '@/components/features/settings/AutomationRow';
+import { theme } from '@/constants/theme';
 
 export default function AutomationsScreen() {
     return (
@@ -65,23 +66,6 @@ export default function AutomationsScreen() {
     );
 }
 
-const AutomationRow = ({ icon: Icon, title, desc, active }: any) => (
-    <View style={styles.row}>
-        <View style={styles.rowLead}>
-            <Icon size={22} color={theme.colors.onSurfaceVariant} />
-            <View style={styles.rowText}>
-                <Text style={styles.rowTitle}>{title}</Text>
-                <Text style={styles.rowDesc}>{desc}</Text>
-            </View>
-        </View>
-        <Switch
-            value={active}
-            trackColor={{ false: theme.colors.surfaceContainerHighest, true: theme.colors.emerald }}
-            thumbColor={theme.colors.primary}
-        />
-    </View>
-);
-
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: theme.colors.background },
     content: { padding: theme.spacing.md, paddingTop: 20 },
@@ -95,11 +79,6 @@ const styles = StyleSheet.create({
         borderColor: theme.colors.innerStroke,
         overflow: 'hidden'
     },
-    row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 20 },
-    rowLead: { flexDirection: 'row', alignItems: 'flex-start', gap: 16, flex: 1 },
-    rowText: { flex: 1 },
-    rowTitle: { ...theme.typography.titleSm, color: theme.colors.primary, marginBottom: 4 },
-    rowDesc: { ...theme.typography.bodyMd, fontSize: 12, color: theme.colors.onSurfaceVariant, lineHeight: 18 },
     divider: { height: 1, backgroundColor: theme.colors.innerStroke, marginHorizontal: 20 },
     logicCard: {
         padding: 20,

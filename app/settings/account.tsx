@@ -1,7 +1,8 @@
+import { SubHeader } from '@/components/features/navigation/SubHeader';
+import SyncRow from '@/components/features/settings/SyncRow';
+import { theme } from '@/constants/theme';
 import { CloudCheck, Key, RefreshCcw, ShieldCheck, User } from 'lucide-react-native';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { SubHeader } from '../../components/features/navigation/SubHeader';
-import { theme } from '../../constants/theme';
 
 
 export default function AccountScreen() {
@@ -65,17 +66,6 @@ export default function AccountScreen() {
     );
 }
 
-// Alt Bileşen: Senkronizasyon Satırı
-const SyncRow = ({ icon: Icon, label, value, statusColor = theme.colors.primary }: any) => (
-    <View style={styles.row}>
-        <View style={styles.rowLead}>
-            <Icon size={20} color={theme.colors.onSurfaceVariant} />
-            <Text style={styles.rowLabel}>{label}</Text>
-        </View>
-        <Text style={[styles.rowValue, { color: statusColor }]}>{value}</Text>
-    </View>
-);
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -135,26 +125,6 @@ const styles = StyleSheet.create({
         color: theme.colors.outline,
         marginBottom: 12,
         paddingLeft: 4
-    },
-    row: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 16
-    },
-    rowLead: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 12
-    },
-    rowLabel: {
-        ...theme.typography.titleSm,
-        fontSize: 15,
-        color: theme.colors.primary
-    },
-    rowValue: {
-        ...theme.typography.labelCaps,
-        fontSize: 10
     },
     divider: {
         height: 1,
