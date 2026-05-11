@@ -1,6 +1,7 @@
+import { useMemo } from 'react';
 import { LucideIcon } from 'lucide-react-native';
 import { StyleSheet, Switch, Text, View } from 'react-native';
-import { theme } from '@/constants/theme';
+import { useThemeContext } from '@/contexts/ThemeContext';
 
 interface AutomationRowProps {
     icon: LucideIcon;
@@ -11,6 +12,14 @@ interface AutomationRowProps {
 }
 
 export default function AutomationRow({ icon: Icon, title, desc, active }: AutomationRowProps) {
+    const theme = useThemeContext();
+    const styles = useMemo(() => StyleSheet.create({
+        row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 20 },
+        rowLead: { flexDirection: 'row', alignItems: 'flex-start', gap: 16, flex: 1 },
+        rowText: { flex: 1 },
+        rowTitle: { ...theme.typography.titleSm, color: theme.colors.primary, marginBottom: 4 },
+        rowDesc: { ...theme.typography.bodyMd, fontSize: 12, color: theme.colors.onSurfaceVariant, lineHeight: 18 }
+    }), [theme]);
     return (
         <View style={styles.row}>
             <View style={styles.rowLead}>
@@ -29,10 +38,3 @@ export default function AutomationRow({ icon: Icon, title, desc, active }: Autom
     );
 }
 
-const styles = StyleSheet.create({
-    row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 20 },
-    rowLead: { flexDirection: 'row', alignItems: 'flex-start', gap: 16, flex: 1 },
-    rowText: { flex: 1 },
-    rowTitle: { ...theme.typography.titleSm, color: theme.colors.primary, marginBottom: 4 },
-    rowDesc: { ...theme.typography.bodyMd, fontSize: 12, color: theme.colors.onSurfaceVariant, lineHeight: 18 }
-});

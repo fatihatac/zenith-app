@@ -1,5 +1,6 @@
+import { useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { theme } from '@/constants/theme';
+import { useThemeContext } from '@/contexts/ThemeContext';
 import { MarketAsset } from '@/types/market';
 
 interface MarketAssetRowProps {
@@ -8,6 +9,49 @@ interface MarketAssetRowProps {
 }
 
 export const MarketAssetRow = ({ asset, isLast }: MarketAssetRowProps) => {
+  const theme = useThemeContext();
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        row: {
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          paddingVertical: 16,
+          paddingHorizontal: 16,
+        },
+        borderBottom: {
+          borderBottomWidth: 1,
+          borderBottomColor: theme.colors.innerStroke,
+        },
+        symbol: {
+          ...theme.typography.titleSm,
+          color: theme.colors.primary,
+          fontWeight: '600',
+        },
+        name: {
+          ...theme.typography.labelCaps,
+          color: theme.colors.onSurfaceVariant,
+          textTransform: 'none',
+          marginTop: 2,
+          letterSpacing: 0,
+        },
+        priceContainer: {
+          alignItems: 'flex-end',
+        },
+        price: {
+          ...theme.typography.titleSm,
+          color: theme.colors.primary,
+          fontWeight: '600',
+        },
+        change: {
+          ...theme.typography.labelCaps,
+          fontWeight: '700',
+          marginTop: 2,
+        },
+      }),
+    [theme]
+  );
   const isPositive = asset.change.startsWith('+');
 
   return (
@@ -25,43 +69,3 @@ export const MarketAssetRow = ({ asset, isLast }: MarketAssetRowProps) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 16,
-    paddingHorizontal: 16,
-  },
-  borderBottom: {
-    borderBottomWidth: 1,
-    borderBottomColor: theme.colors.innerStroke,
-  },
-  symbol: {
-    ...theme.typography.titleSm,
-    color: theme.colors.primary,
-    fontWeight: '600',
-  },
-  name: {
-    ...theme.typography.labelCaps,
-    color: theme.colors.onSurfaceVariant,
-    textTransform: 'none',
-    marginTop: 2,
-    letterSpacing: 0,
-  },
-  priceContainer: {
-    // DÜZELTME: 'end' değeri React Native'de 'flex-end' olarak kullanılmalıdır
-    alignItems: 'flex-end',
-  },
-  price: {
-    ...theme.typography.titleSm,
-    color: theme.colors.primary,
-    fontWeight: '600',
-  },
-  change: {
-    ...theme.typography.labelCaps,
-    fontWeight: '700',
-    marginTop: 2,
-  },
-});

@@ -1,6 +1,7 @@
+import { useMemo } from 'react';
 import { ChevronRight, FileText, FolderOpen, Key } from 'lucide-react-native';
 import { Pressable, StyleSheet, Text, View, ViewStyle, TextStyle } from 'react-native';
-import { theme } from '@/constants/theme';
+import { useThemeContext } from '@/contexts/ThemeContext';
 import { VaultItem } from '@/types/vault';
 
 interface VaultItemRowProps {
@@ -8,6 +9,44 @@ interface VaultItemRowProps {
 }
 
 export const VaultItemRow = ({ item }: VaultItemRowProps) => {
+  const theme = useThemeContext();
+  const styles = useMemo(() => StyleSheet.create<VaultItemRowStyles>({
+    row: {
+      backgroundColor: theme.colors.surfaceContainerLow,
+      borderWidth: 1,
+      borderColor: theme.colors.innerStroke,
+      borderRadius: theme.roundness.xl,
+      padding: 16,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 4,
+    },
+    contentLeft: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 16,
+    },
+    textContainer: {
+      flexDirection: 'column',
+      gap: 4,
+    },
+    title: {
+      ...theme.typography.titleSm,
+      fontSize: 16,
+      color: theme.colors.primary,
+      lineHeight: 22,
+    },
+    subtitle: {
+      ...theme.typography.labelCaps,
+      fontSize: 12,
+      color: theme.colors.onSurfaceVariant,
+      textTransform: 'none',
+      letterSpacing: 0,
+      lineHeight: 16,
+    },
+  }), [theme]);
+
   let IconComponent = Key;
   if (item.icon === 'file-text') IconComponent = FileText;
   if (item.icon === 'folder-open') IconComponent = FolderOpen;
@@ -33,40 +72,3 @@ interface VaultItemRowStyles {
   title: TextStyle;
   subtitle: TextStyle;
 }
-
-const styles = StyleSheet.create<VaultItemRowStyles>({
-  row: {
-    backgroundColor: theme.colors.surfaceContainerLow,
-    borderWidth: 1,
-    borderColor: theme.colors.innerStroke,
-    borderRadius: theme.roundness.xl,
-    padding: 16,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 4,
-  },
-  contentLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 16,
-  },
-  textContainer: {
-    flexDirection: 'column',
-    gap: 4,
-  },
-  title: {
-    ...theme.typography.titleSm,
-    fontSize: 16,
-    color: theme.colors.primary,
-    lineHeight: 22, // Increased from 16
-  },
-  subtitle: {
-    ...theme.typography.labelCaps,
-    fontSize: 12,
-    color: theme.colors.onSurfaceVariant,
-    textTransform: 'none',
-    letterSpacing: 0,
-    lineHeight: 16, // Increased from 12
-  },
-});

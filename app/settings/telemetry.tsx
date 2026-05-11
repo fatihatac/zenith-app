@@ -1,10 +1,59 @@
+import { useMemo } from 'react';
 import { Activity, Cpu, Thermometer, Zap } from 'lucide-react-native';
 import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SubHeader } from '@/components/features/navigation/SubHeader';
 import StatCard from '@/components/features/settings/StatCard';
-import { theme } from '@/constants/theme';
+import { useThemeContext } from '@/contexts/ThemeContext';
 
 export default function TelemetryScreen() {
+    const theme = useThemeContext();
+    const styles = useMemo(() => StyleSheet.create({
+        container: {
+            flex: 1,
+            backgroundColor: theme.colors.background
+        },
+        content: {
+            padding: theme.spacing.md,
+            paddingTop: 20 // Header payı
+        },
+        headerTitle: {
+            ...theme.typography.displayLg,
+            fontSize: 28,
+            color: theme.colors.primary,
+            marginBottom: theme.spacing.lg
+        },
+        statsGrid: {
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            gap: 12,
+            marginBottom: theme.spacing.lg
+        },
+        sectionLabel: {
+            ...theme.typography.labelCaps,
+            color: theme.colors.onSurfaceVariant,
+            marginBottom: 12
+        },
+        console: {
+            backgroundColor: '#000',
+            padding: 16,
+            borderRadius: theme.roundness.sm,
+            minHeight: 220,
+            borderWidth: 1,
+            borderColor: theme.colors.innerStroke
+        },
+        consoleText: {
+            fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+            fontSize: 12,
+            color: theme.colors.emerald,
+            lineHeight: 18,
+            marginBottom: 4
+        },
+        cursor: {
+            color: theme.colors.emerald,
+            fontWeight: '900'
+        }
+    }), [theme]);
+
     return (
         <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
             <SubHeader title="Engine Telemetry" />
@@ -58,50 +107,3 @@ export default function TelemetryScreen() {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: theme.colors.background
-    },
-    content: {
-        padding: theme.spacing.md,
-        paddingTop: 20 // Header payı
-    },
-    headerTitle: {
-        ...theme.typography.displayLg,
-        fontSize: 28,
-        color: theme.colors.primary,
-        marginBottom: theme.spacing.lg
-    },
-    statsGrid: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        gap: 12,
-        marginBottom: theme.spacing.lg
-    },
-    sectionLabel: {
-        ...theme.typography.labelCaps,
-        color: theme.colors.onSurfaceVariant,
-        marginBottom: 12
-    },
-    console: {
-        backgroundColor: '#000',
-        padding: 16,
-        borderRadius: theme.roundness.sm,
-        minHeight: 220,
-        borderWidth: 1,
-        borderColor: theme.colors.innerStroke
-    },
-    consoleText: {
-        fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
-        fontSize: 12,
-        color: theme.colors.emerald,
-        lineHeight: 18,
-        marginBottom: 4
-    },
-    cursor: {
-        color: theme.colors.emerald,
-        fontWeight: '900'
-    }
-});

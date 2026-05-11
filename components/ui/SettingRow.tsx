@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { LucideIcon } from 'lucide-react-native';
-import { theme } from '@/constants/theme';
+import { useThemeContext } from '@/contexts/ThemeContext';
 
 interface SettingRowProps {
   icon: LucideIcon;
@@ -15,16 +15,42 @@ export const SettingRow = ({
   icon: Icon,
   label,
   value,
-  valueColor = theme.colors.primary,
+  valueColor,
   onPress,
 }: SettingRowProps) => {
+  const theme = useThemeContext();
+  const resolvedValueColor = valueColor ?? theme.colors.primary;
+
+  const styles = useMemo(() => StyleSheet.create({
+    row: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      padding: 16,
+    },
+    rowLead: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 12,
+    },
+    rowLabel: {
+      ...theme.typography.titleSm,
+      fontSize: 15,
+      color: theme.colors.primary,
+    },
+    rowValue: {
+      ...theme.typography.labelCaps,
+      fontSize: 10,
+    },
+  }), [theme]);
+
   const content = (
     <View style={styles.row}>
       <View style={styles.rowLead}>
         <Icon size={20} color={theme.colors.onSurfaceVariant} />
         <Text style={styles.rowLabel}>{label}</Text>
       </View>
-      <Text style={[styles.rowValue, { color: valueColor }]}>{value}</Text>
+      <Text style={[styles.rowValue, { color: resolvedValueColor }]}>{value}</Text>
     </View>
   );
 
@@ -34,26 +60,3 @@ export const SettingRow = ({
 
   return content;
 };
-
-const styles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 16,
-  },
-  rowLead: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  rowLabel: {
-    ...theme.typography.titleSm,
-    fontSize: 15,
-    color: theme.colors.primary,
-  },
-  rowValue: {
-    ...theme.typography.labelCaps,
-    fontSize: 10,
-  },
-});

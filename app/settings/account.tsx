@@ -1,11 +1,95 @@
+import { useMemo } from 'react';
 import { SubHeader } from '@/components/features/navigation/SubHeader';
 import SyncRow from '@/components/features/settings/SyncRow';
-import { theme } from '@/constants/theme';
+import { useThemeContext } from '@/contexts/ThemeContext';
 import { CloudCheck, Key, RefreshCcw, ShieldCheck, User } from 'lucide-react-native';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 
 export default function AccountScreen() {
+    const theme = useThemeContext();
+    const styles = useMemo(() => StyleSheet.create({
+        container: {
+            flex: 1,
+            backgroundColor: theme.colors.background
+        },
+        content: {
+            padding: theme.spacing.md,
+            paddingTop: 20
+        },
+        headerTitle: {
+            ...theme.typography.displayLg,
+            fontSize: 28,
+            color: theme.colors.primary,
+            marginBottom: theme.spacing.lg
+        },
+        card: {
+            backgroundColor: theme.colors.surfaceContainerLow,
+            borderRadius: theme.roundness.xl,
+            borderWidth: 1,
+            borderColor: theme.colors.innerStroke,
+            overflow: 'hidden',
+            marginBottom: theme.spacing.md
+        },
+        identityRow: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            padding: 20,
+            gap: 16
+        },
+        avatarPlaceholder: {
+            width: 60,
+            height: 60,
+            borderRadius: 30,
+            backgroundColor: theme.colors.surfaceContainerHigh,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderWidth: 1,
+            borderColor: theme.colors.innerStroke
+        },
+        identityText: { flex: 1 },
+        userName: {
+            ...theme.typography.titleSm,
+            fontSize: 20,
+            color: theme.colors.primary
+        },
+        userTier: {
+            ...theme.typography.labelCaps,
+            color: theme.colors.emerald,
+            marginTop: 4
+        },
+        section: {
+            marginTop: theme.spacing.md,
+            marginBottom: theme.spacing.sm
+        },
+        sectionLabel: {
+            ...theme.typography.labelCaps,
+            color: theme.colors.outline,
+            marginBottom: 12,
+            paddingLeft: 4
+        },
+        divider: {
+            height: 1,
+            backgroundColor: theme.colors.innerStroke,
+            marginHorizontal: 16
+        },
+        syncButton: {
+            flexDirection: 'row',
+            backgroundColor: theme.colors.primary,
+            paddingVertical: 18,
+            borderRadius: theme.roundness.xl,
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 10,
+            marginTop: theme.spacing.lg
+        },
+        syncButtonText: {
+            ...theme.typography.labelCaps,
+            color: theme.colors.background,
+            fontWeight: '700'
+        }
+    }), [theme]);
+
     return (
         <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
             <SubHeader title='Account & Sync' />
@@ -65,85 +149,3 @@ export default function AccountScreen() {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: theme.colors.background
-    },
-    content: {
-        padding: theme.spacing.md,
-        paddingTop: 20
-    },
-    headerTitle: {
-        ...theme.typography.displayLg,
-        fontSize: 28,
-        color: theme.colors.primary,
-        marginBottom: theme.spacing.lg
-    },
-    card: {
-        backgroundColor: theme.colors.surfaceContainerLow,
-        borderRadius: theme.roundness.xl,
-        borderWidth: 1,
-        borderColor: theme.colors.innerStroke,
-        overflow: 'hidden',
-        marginBottom: theme.spacing.md
-    },
-    identityRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        padding: 20,
-        gap: 16
-    },
-    avatarPlaceholder: {
-        width: 60,
-        height: 60,
-        borderRadius: 30,
-        backgroundColor: theme.colors.surfaceContainerHigh,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 1,
-        borderColor: theme.colors.innerStroke
-    },
-    identityText: { flex: 1 },
-    userName: {
-        ...theme.typography.titleSm,
-        fontSize: 20,
-        color: theme.colors.primary
-    },
-    userTier: {
-        ...theme.typography.labelCaps,
-        color: theme.colors.emerald,
-        marginTop: 4
-    },
-    section: {
-        marginTop: theme.spacing.md,
-        marginBottom: theme.spacing.sm
-    },
-    sectionLabel: {
-        ...theme.typography.labelCaps,
-        color: theme.colors.outline,
-        marginBottom: 12,
-        paddingLeft: 4
-    },
-    divider: {
-        height: 1,
-        backgroundColor: theme.colors.innerStroke,
-        marginHorizontal: 16
-    },
-    syncButton: {
-        flexDirection: 'row',
-        backgroundColor: theme.colors.primary,
-        paddingVertical: 18,
-        borderRadius: theme.roundness.xl,
-        justifyContent: 'center',
-        alignItems: 'center',
-        gap: 10,
-        marginTop: theme.spacing.lg
-    },
-    syncButtonText: {
-        ...theme.typography.labelCaps,
-        color: theme.colors.background,
-        fontWeight: '700'
-    }
-});

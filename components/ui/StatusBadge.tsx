@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, ViewStyle, TextStyle } from 'react-native';
-import { theme } from '@/constants/theme';
+import { useThemeContext } from '@/contexts/ThemeContext';
 
 interface StatusBadgeProps {
   label: string;
@@ -8,6 +8,8 @@ interface StatusBadgeProps {
 }
 
 export const StatusBadge = ({ label, variant }: StatusBadgeProps) => {
+  const theme = useThemeContext();
+
   let containerStyle: ViewStyle = {};
   let textStyle: TextStyle = {};
 
@@ -27,21 +29,21 @@ export const StatusBadge = ({ label, variant }: StatusBadgeProps) => {
       break;
   }
 
+  const styles = useMemo(() => StyleSheet.create({
+    badge: {
+      paddingHorizontal: 8,
+      paddingVertical: 4,
+      borderRadius: 4,
+    },
+    label: {
+      ...theme.typography.labelCaps,
+      fontSize: 9,
+    },
+  }), [theme]);
+
   return (
     <View style={[styles.badge, containerStyle]}>
       <Text style={[styles.label, textStyle]}>{label}</Text>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  badge: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 4,
-  },
-  label: {
-    ...theme.typography.labelCaps,
-    fontSize: 9,
-  },
-});

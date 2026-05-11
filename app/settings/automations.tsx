@@ -1,10 +1,38 @@
+import { useMemo } from 'react';
 import { SubHeader } from '@/components/features/navigation/SubHeader';
 import { BellOff, Clock, Smartphone, Zap } from 'lucide-react-native';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import AutomationRow from '@/components/features/settings/AutomationRow';
-import { theme } from '@/constants/theme';
+import { useThemeContext } from '@/contexts/ThemeContext';
 
 export default function AutomationsScreen() {
+    const theme = useThemeContext();
+    const styles = useMemo(() => StyleSheet.create({
+        container: { flex: 1, backgroundColor: theme.colors.background },
+        content: { padding: theme.spacing.md, paddingTop: 20 },
+        headerTitle: { ...theme.typography.displayLg, fontSize: 28, color: theme.colors.primary, marginBottom: theme.spacing.lg },
+        section: { marginBottom: theme.spacing.xl },
+        sectionLabel: { ...theme.typography.labelCaps, color: theme.colors.outline, marginBottom: 12, paddingLeft: 4 },
+        card: {
+            backgroundColor: theme.colors.surfaceContainerLow,
+            borderRadius: theme.roundness.xl,
+            borderWidth: 1,
+            borderColor: theme.colors.innerStroke,
+            overflow: 'hidden'
+        },
+        divider: { height: 1, backgroundColor: theme.colors.innerStroke, marginHorizontal: 20 },
+        logicCard: {
+            padding: 20,
+            backgroundColor: 'rgba(255,255,255,0.03)',
+            borderRadius: theme.roundness.lg,
+            marginTop: 20,
+            borderWidth: 1,
+            borderColor: theme.colors.innerStroke
+        },
+        logicTitle: { ...theme.typography.labelCaps, color: theme.colors.emerald, marginBottom: 8 },
+        logicDesc: { ...theme.typography.bodyMd, fontSize: 11, color: theme.colors.outline, lineHeight: 16 }
+    }), [theme]);
+
     return (
         <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
             <SubHeader title="Focus Automations" />
@@ -65,29 +93,3 @@ export default function AutomationsScreen() {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: theme.colors.background },
-    content: { padding: theme.spacing.md, paddingTop: 20 },
-    headerTitle: { ...theme.typography.displayLg, fontSize: 28, color: theme.colors.primary, marginBottom: theme.spacing.lg },
-    section: { marginBottom: theme.spacing.xl },
-    sectionLabel: { ...theme.typography.labelCaps, color: theme.colors.outline, marginBottom: 12, paddingLeft: 4 },
-    card: {
-        backgroundColor: theme.colors.surfaceContainerLow,
-        borderRadius: theme.roundness.xl,
-        borderWidth: 1,
-        borderColor: theme.colors.innerStroke,
-        overflow: 'hidden'
-    },
-    divider: { height: 1, backgroundColor: theme.colors.innerStroke, marginHorizontal: 20 },
-    logicCard: {
-        padding: 20,
-        backgroundColor: 'rgba(255,255,255,0.03)',
-        borderRadius: theme.roundness.lg,
-        marginTop: 20,
-        borderWidth: 1,
-        borderColor: theme.colors.innerStroke
-    },
-    logicTitle: { ...theme.typography.labelCaps, color: theme.colors.emerald, marginBottom: 8 },
-    logicDesc: { ...theme.typography.bodyMd, fontSize: 11, color: theme.colors.outline, lineHeight: 16 }
-});

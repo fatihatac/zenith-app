@@ -1,5 +1,6 @@
+import { useMemo } from 'react';
 import { StyleSheet, Text, View, ViewStyle, TextStyle } from 'react-native';
-import { theme } from '@/constants/theme';
+import { useThemeContext } from '@/contexts/ThemeContext';
 import { SignalIntel } from '@/types/signal';
 
 interface SignalCardProps {
@@ -7,6 +8,48 @@ interface SignalCardProps {
 }
 
 export const SignalCard = ({ signal }: SignalCardProps) => {
+  const theme = useThemeContext();
+  const styles = useMemo(() => StyleSheet.create<SignalCardStyles>({
+    card: {
+      backgroundColor: theme.colors.surfaceContainerLow,
+      borderWidth: 1,
+      borderColor: theme.colors.innerStroke,
+      borderRadius: theme.roundness.xl,
+      padding: 24,
+      marginBottom: 16,
+    },
+    header: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 12,
+    },
+    category: {
+      ...theme.typography.labelCaps,
+      color: theme.colors.onSurfaceVariant,
+      textTransform: 'uppercase',
+      lineHeight: 16,
+    },
+    timestamp: {
+      ...theme.typography.labelCaps,
+      color: theme.colors.onSurfaceVariant,
+      textTransform: 'uppercase',
+      lineHeight: 16,
+    },
+    title: {
+      ...theme.typography.titleSm,
+      color: theme.colors.primary,
+      fontWeight: '600',
+      marginBottom: 12,
+      lineHeight: 26,
+    },
+    description: {
+      ...theme.typography.bodyMd,
+      color: theme.colors.onSurfaceVariant,
+      lineHeight: 24,
+    },
+  }), [theme]);
+
   return (
     <View style={styles.card}>
       <View style={styles.header}>
@@ -27,44 +70,3 @@ interface SignalCardStyles {
   title: TextStyle;
   description: TextStyle;
 }
-
-const styles = StyleSheet.create<SignalCardStyles>({
-  card: {
-    backgroundColor: theme.colors.surfaceContainerLow,
-    borderWidth: 1,
-    borderColor: theme.colors.innerStroke,
-    borderRadius: theme.roundness.xl,
-    padding: 24,
-    marginBottom: 16,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  category: {
-    ...theme.typography.labelCaps,
-    color: theme.colors.onSurfaceVariant,
-    textTransform: 'uppercase',
-    lineHeight: 16,
-  },
-  timestamp: {
-    ...theme.typography.labelCaps,
-    color: theme.colors.onSurfaceVariant,
-    textTransform: 'uppercase',
-    lineHeight: 16,
-  },
-  title: {
-    ...theme.typography.titleSm,
-    color: theme.colors.primary,
-    fontWeight: '600',
-    marginBottom: 12,
-    lineHeight: 26, // Increased from 22
-  },
-  description: {
-    ...theme.typography.bodyMd,
-    color: theme.colors.onSurfaceVariant,
-    lineHeight: 24,
-  },
-});

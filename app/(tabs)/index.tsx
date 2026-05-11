@@ -1,10 +1,32 @@
+import { useMemo } from 'react';
 import { Cloud, ShieldCheck } from 'lucide-react-native';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SystemLogItem } from '@/components/features/focus/SystemLogItem';
 import { WorkSessionWidget } from '@/components/features/focus/WorkSessionWidget';
-import { theme } from '@/constants/theme';
+import { useThemeContext } from '@/contexts/ThemeContext';
 
 export default function FocusScreen() {
+  const theme = useThemeContext();
+  const styles = useMemo(() => StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.colors.background,
+    },
+    contentContainer: {
+      paddingTop: 20,
+      paddingHorizontal: theme.spacing.marginMobile,
+      paddingBottom: 120,
+    },
+    logSection: {
+      marginTop: theme.spacing.lg,
+    },
+    sectionHeader: {
+      ...theme.typography.titleSm,
+      color: theme.colors.primary,
+      marginBottom: theme.spacing.sm,
+    },
+  }), [theme]);
+
   return (
     <ScrollView
       style={styles.container}
@@ -32,22 +54,3 @@ export default function FocusScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: theme.colors.background,
-  },
-  contentContainer: {
-    paddingTop: 20, // Header mesafesi
-    paddingHorizontal: theme.spacing.marginMobile, // 24px
-    paddingBottom: 120, // Bottom bar mesafesi
-  },
-  logSection: {
-    marginTop: theme.spacing.lg, // 40px (Vertical Rhythm)
-  },
-  sectionHeader: {
-    ...theme.typography.titleSm,
-    color: theme.colors.primary,
-    marginBottom: theme.spacing.sm,
-  },
-});

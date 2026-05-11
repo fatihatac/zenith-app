@@ -1,10 +1,30 @@
+import { useMemo } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { MarketAssetRow } from '@/components/features/markets/MarketAssetRow';
-import { theme } from '@/constants/theme';
+import { useThemeContext } from '@/contexts/ThemeContext';
 import { useMarkets } from '@/hooks/useMarkets';
 
 export default function MarketsScreen() {
     const { assets } = useMarkets();
+    const theme = useThemeContext();
+    const styles = useMemo(() => StyleSheet.create({
+        container: {
+            flex: 1,
+            backgroundColor: theme.colors.background,
+        },
+        contentContainer: {
+            paddingTop: 20,
+            paddingHorizontal: theme.spacing.marginMobile,
+            paddingBottom: 120,
+        },
+        listContainer: {
+            backgroundColor: theme.colors.surfaceContainerLow,
+            borderWidth: 1,
+            borderColor: theme.colors.innerStroke,
+            borderRadius: theme.roundness.xl,
+            overflow: 'hidden',
+        },
+    }), [theme]);
 
     return (
         <ScrollView
@@ -25,21 +45,3 @@ export default function MarketsScreen() {
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: theme.colors.background,
-    },
-    contentContainer: {
-        paddingTop: 20,
-        paddingHorizontal: theme.spacing.marginMobile,
-        paddingBottom: 120,
-    },
-    listContainer: {
-        backgroundColor: theme.colors.surfaceContainerLow,
-        borderWidth: 1,
-        borderColor: theme.colors.innerStroke,
-        borderRadius: theme.roundness.xl,
-        overflow: 'hidden',
-    },
-});

@@ -2,7 +2,8 @@ import { useRouter } from 'expo-router';
 import { ChevronLeft } from 'lucide-react-native';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { theme } from '@/constants/theme';
+import { useThemeContext } from '@/contexts/ThemeContext';
+import { useMemo } from 'react';
 
 interface SubHeaderProps {
     title: string;
@@ -10,6 +11,8 @@ interface SubHeaderProps {
 }
 
 export const SubHeader = ({ title, showBack = true }: SubHeaderProps) => {
+    const theme = useThemeContext();
+    const styles = useMemo(() => createStyles(theme), [theme]);
     const router = useRouter();
     const insets = useSafeAreaInsets();
 
@@ -29,7 +32,8 @@ export const SubHeader = ({ title, showBack = true }: SubHeaderProps) => {
     );
 };
 
-const styles = StyleSheet.create({
+const createStyles = (theme: ReturnType<typeof useThemeContext>) =>
+  StyleSheet.create({
     container: {
         backgroundColor: theme.colors.background,
         borderBottomWidth: 1,

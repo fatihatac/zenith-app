@@ -14,7 +14,8 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SIDEBAR_ITEMS } from '@/constants/navigation';
-import { theme } from '@/constants/theme';
+import { useThemeContext } from '@/contexts/ThemeContext';
+import { useMemo } from 'react';
 import { SidebarItem } from './SidebarItem';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
@@ -25,6 +26,8 @@ interface SidebarProps {
 }
 
 export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
+  const theme = useThemeContext();
+  const styles = useMemo(() => createStyles(theme), [theme]);
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const pathname = usePathname();
@@ -139,40 +142,41 @@ interface SidebarStyles {
   lockText: TextStyle;
 }
 
-const styles = StyleSheet.create<SidebarStyles>({
-  modalContainer: { flex: 1, flexDirection: 'row' },
-  backdrop: { ...StyleSheet.absoluteFillObject, backgroundColor: theme.colors.backdrop },
-  drawer: {
-    position: 'absolute',
-    left: 0,
-    width: SCREEN_WIDTH * 0.8,
-    maxWidth: 360,
-    backgroundColor: theme.colors.surface,
-    borderRightWidth: 1,
-    borderColor: theme.colors.outlineVariant,
-    borderTopRightRadius: theme.roundness.xl,
-    paddingHorizontal: theme.spacing.md,
-    paddingTop: 20, // Kendi ayarın
-    shadowColor: '#000',
-    shadowOffset: { width: 10, height: 0 },
-    shadowOpacity: 0.3,
-    shadowRadius: 20,
-    elevation: 10,
-  },
-  header: { marginBottom: theme.spacing.lg, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
-  brandTitle: { ...theme.typography.displayLg, color: theme.colors.primary, marginBottom: theme.spacing.xs, lineHeight: 48 },
-  proText: { ...theme.typography.titleSm, color: theme.colors.onSurfaceVariant, lineHeight: 22 },
-  statusRow: { flexDirection: 'row', alignItems: 'center', gap: theme.spacing.xs },
-  statusDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: theme.colors.emerald },
-  statusText: { ...theme.typography.labelCaps, color: theme.colors.onSurfaceVariant, lineHeight: 16 },
-  closeButton: { padding: 8, marginRight: -16, marginTop: -8 },
-  scrollArea: { flex: 1 },
-  navGroup: { gap: 4 },
-  activeSection: { marginVertical: 4 },
-  telemetryCard: { marginLeft: 44, backgroundColor: theme.colors.surfaceContainerLow, borderWidth: 1, borderColor: theme.colors.outlineVariant, borderRadius: theme.roundness.sm, padding: theme.spacing.xs, marginTop: 4 },
-  telemetryTitle: { ...theme.typography.labelCaps, color: theme.colors.onSurfaceVariant, marginBottom: 4, lineHeight: 16 },
-  telemetryContent: { fontSize: 10, color: theme.colors.primary, fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace', letterSpacing: 1, lineHeight: 14 },
-  footer: { marginTop: 'auto', paddingTop: theme.spacing.md, borderTopWidth: 1, borderTopColor: theme.colors.innerStroke },
-  lockButton: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 8, paddingVertical: 16 },
-  lockText: { ...theme.typography.labelCaps, color: theme.colors.onSurfaceVariant, lineHeight: 16 },
-});
+const createStyles = (theme: ReturnType<typeof useThemeContext>) =>
+  StyleSheet.create<SidebarStyles>({
+    modalContainer: { flex: 1, flexDirection: 'row' },
+    backdrop: { ...StyleSheet.absoluteFillObject, backgroundColor: theme.colors.backdrop },
+    drawer: {
+      position: 'absolute',
+      left: 0,
+      width: SCREEN_WIDTH * 0.8,
+      maxWidth: 360,
+      backgroundColor: theme.colors.surface,
+      borderRightWidth: 1,
+      borderColor: theme.colors.outlineVariant,
+      borderTopRightRadius: theme.roundness.xl,
+      paddingHorizontal: theme.spacing.md,
+      paddingTop: 20,
+      shadowColor: '#000',
+      shadowOffset: { width: 10, height: 0 },
+      shadowOpacity: 0.3,
+      shadowRadius: 20,
+      elevation: 10,
+    },
+    header: { marginBottom: theme.spacing.lg, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
+    brandTitle: { ...theme.typography.displayLg, color: theme.colors.primary, marginBottom: theme.spacing.xs, lineHeight: 48 },
+    proText: { ...theme.typography.titleSm, color: theme.colors.onSurfaceVariant, lineHeight: 22 },
+    statusRow: { flexDirection: 'row', alignItems: 'center', gap: theme.spacing.xs },
+    statusDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: theme.colors.emerald },
+    statusText: { ...theme.typography.labelCaps, color: theme.colors.onSurfaceVariant, lineHeight: 16 },
+    closeButton: { padding: 8, marginRight: -16, marginTop: -8 },
+    scrollArea: { flex: 1 },
+    navGroup: { gap: 4 },
+    activeSection: { marginVertical: 4 },
+    telemetryCard: { marginLeft: 44, backgroundColor: theme.colors.surfaceContainerLow, borderWidth: 1, borderColor: theme.colors.outlineVariant, borderRadius: theme.roundness.sm, padding: theme.spacing.xs, marginTop: 4 },
+    telemetryTitle: { ...theme.typography.labelCaps, color: theme.colors.onSurfaceVariant, marginBottom: 4, lineHeight: 16 },
+    telemetryContent: { fontSize: 10, color: theme.colors.primary, fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace', letterSpacing: 1, lineHeight: 14 },
+    footer: { marginTop: 'auto', paddingTop: theme.spacing.md, borderTopWidth: 1, borderTopColor: theme.colors.innerStroke },
+    lockButton: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 8, paddingVertical: 16 },
+    lockText: { ...theme.typography.labelCaps, color: theme.colors.onSurfaceVariant, lineHeight: 16 },
+  });

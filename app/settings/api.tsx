@@ -1,10 +1,34 @@
+import { useMemo } from 'react';
 import { SubHeader } from '@/components/features/navigation/SubHeader';
 import ApiNodeCard from '@/components/features/settings/ApiNodeCard';
-import { theme } from '@/constants/theme';
+import { useThemeContext } from '@/contexts/ThemeContext';
 import { Plus, Server } from 'lucide-react-native';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function ApiSettingsScreen() {
+    const theme = useThemeContext();
+    const styles = useMemo(() => StyleSheet.create({
+        container: { flex: 1, backgroundColor: theme.colors.background },
+        content: { padding: theme.spacing.md, paddingTop: 20 },
+        headerTitle: { ...theme.typography.displayLg, fontSize: 28, color: theme.colors.primary, marginBottom: theme.spacing.lg },
+        section: { marginBottom: theme.spacing.lg },
+        sectionLabel: { ...theme.typography.labelCaps, color: theme.colors.outline, marginBottom: 16 },
+        addButton: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 10,
+            paddingVertical: 16,
+            borderRadius: theme.roundness.xl,
+            borderWidth: 1,
+            borderColor: theme.colors.primary,
+            borderStyle: 'dashed'
+        },
+        addButtonText: { ...theme.typography.labelCaps, color: theme.colors.primary },
+        infoBox: { flexDirection: 'row', gap: 12, marginTop: 40, paddingHorizontal: 8 },
+        infoText: { ...theme.typography.bodyMd, fontSize: 12, color: theme.colors.onSurfaceVariant, flex: 1, lineHeight: 18 }
+    }), [theme]);
+
     return (
         <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
             <SubHeader title="Data Sources & API" />
@@ -49,25 +73,3 @@ export default function ApiSettingsScreen() {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: theme.colors.background },
-    content: { padding: theme.spacing.md, paddingTop: 20 },
-    headerTitle: { ...theme.typography.displayLg, fontSize: 28, color: theme.colors.primary, marginBottom: theme.spacing.lg },
-    section: { marginBottom: theme.spacing.lg },
-    sectionLabel: { ...theme.typography.labelCaps, color: theme.colors.outline, marginBottom: 16 },
-    addButton: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 10,
-        paddingVertical: 16,
-        borderRadius: theme.roundness.xl,
-        borderWidth: 1,
-        borderColor: theme.colors.primary,
-        borderStyle: 'dashed'
-    },
-    addButtonText: { ...theme.typography.labelCaps, color: theme.colors.primary },
-    infoBox: { flexDirection: 'row', gap: 12, marginTop: 40, paddingHorizontal: 8 },
-    infoText: { ...theme.typography.bodyMd, fontSize: 12, color: theme.colors.onSurfaceVariant, flex: 1, lineHeight: 18 }
-});
