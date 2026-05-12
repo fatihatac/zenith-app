@@ -26,7 +26,7 @@ export const SubHeader = ({ title, showBack = true }: SubHeaderProps) => {
                     </Pressable>
                 )}
                 <Text style={styles.title}>{title.toUpperCase()}</Text>
-                {showBack && <View style={{ width: 80 }} />}
+                {showBack && <View style={styles.spacer} />}
             </View>
         </View>
     );
@@ -40,18 +40,19 @@ const createStyles = (theme: ReturnType<typeof useThemeContext>) =>
         borderBottomColor: theme.colors.innerStroke,
     },
     content: {
-        height: 56,
+        minHeight: 56,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
         paddingHorizontal: 16,
+        paddingVertical: 10,
     },
-    backButton: { flexDirection: 'row', alignItems: 'center', width: 80 },
+    backButton: { flexDirection: 'row', alignItems: 'center', minWidth: 100 },
     backText: { ...theme.typography.labelCaps, color: theme.colors.primary, marginLeft: -4 },
+    spacer: { minWidth: 100 },
     title: {
         ...theme.typography.titleSm,
         color: theme.colors.onSurfaceVariant,
-        fontSize: 13,
         letterSpacing: 1,
     },
 });

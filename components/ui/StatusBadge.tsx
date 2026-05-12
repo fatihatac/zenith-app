@@ -1,6 +1,7 @@
-import React, { useMemo } from 'react';
-import { View, Text, StyleSheet, ViewStyle, TextStyle } from 'react-native';
+import React, { useMemo, useRef, useEffect } from 'react';
+import { Animated, Easing, Text, StyleSheet, ViewStyle, TextStyle } from 'react-native';
 import { useThemeContext } from '@/contexts/ThemeContext';
+import { useAppearanceStore } from '@/store/appearanceStore';
 
 interface StatusBadgeProps {
   label: string;
@@ -9,6 +10,21 @@ interface StatusBadgeProps {
 
 export const StatusBadge = ({ label, variant }: StatusBadgeProps) => {
   const theme = useThemeContext();
+  const { visualEffects } = useAppearanceStore();
+  const pulseAnim = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    if (visualEffects === 'full' && variant === 'active') {
+      const pulse = Animated.loop(
+        Animated.sequence([
+          Animated.timing(pulseAnim, { toValue: 0.6, duration: 1500, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
+          Animated.timing(pulseAnim, { toValue: 1, duration: 1500, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
+        ])
+      );
+      pulse.start();
+      return () => pulse.stop();
+    }
+  }, [visualEffects, variant]);
 
   let containerStyle: ViewStyle = {};
   let textStyle: TextStyle = {};
@@ -31,9 +47,9 @@ export const StatusBadge = ({ label, variant }: StatusBadgeProps) => {
 
   const styles = useMemo(() => StyleSheet.create({
     badge: {
-      paddingHorizontal: 8,
-      paddingVertical: 4,
-      borderRadius: 4,
+      paddingHorizontal: theme.spacing.xs,
+      paddingVertical: theme.spacing.unit,
+      borderRadius: theme.roundness.sm,
     },
     label: {
       ...theme.typography.labelCaps,
@@ -42,8 +58,8 @@ export const StatusBadge = ({ label, variant }: StatusBadgeProps) => {
   }), [theme]);
 
   return (
-    <View style={[styles.badge, containerStyle]}>
+    <Animated.View style={[styles.badge, containerStyle, { opacity: pulseAnim }]}>
       <Text style={[styles.label, textStyle]}>{label}</Text>
-    </View>
+    </Animated.View>
   );
 };

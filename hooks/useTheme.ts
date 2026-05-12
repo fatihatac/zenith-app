@@ -25,7 +25,7 @@ export function useTheme(): Theme {
       bodyMd: { ...baseTheme.typography.bodyMd },
       labelCaps: { ...baseTheme.typography.labelCaps },
     };
-    const roundness = { ...baseTheme.roundness };
+    let roundness = { ...baseTheme.roundness };
 
     // 1. Tonal Depth — override surface colors
     if (surfaceDepth === 'absolute') {
@@ -57,24 +57,39 @@ export function useTheme(): Theme {
       colors.onSurfaceVariant = '#a0a3a4';
     }
 
-    // 3. Layout Mode — compact reduces spacing
+    // 3. Layout Mode — compact reduces spacing + roundness
     if (layoutMode === 'compact') {
-      spacing.unit = Math.round(4 * 0.75);
-      spacing.xs = Math.round(8 * 0.75);
-      spacing.sm = Math.round(16 * 0.75);
-      spacing.md = Math.round(24 * 0.75);
-      spacing.lg = Math.round(40 * 0.75);
-      spacing.xl = Math.round(64 * 0.75);
-      spacing.marginMobile = Math.round(24 * 0.75);
+      spacing.unit = Math.round(4 * 0.5);
+      spacing.xs = Math.round(8 * 0.5);
+      spacing.sm = Math.round(16 * 0.5);
+      spacing.md = Math.round(24 * 0.5);
+      spacing.lg = Math.round(40 * 0.5);
+      spacing.xl = Math.round(64 * 0.5);
+      spacing.marginMobile = Math.round(24 * 0.5);
+      roundness = {
+        sm: Math.round(4 * 0.75),
+        default: Math.round(8 * 0.75),
+        md: Math.round(12 * 0.75),
+        lg: Math.round(16 * 0.75),
+        xl: Math.round(24 * 0.75),
+        full: roundness.full, // keep full as 9999
+      };
     }
 
-    // 4. Font Scale — multiply typography font sizes
+    // 4. Font Scale — multiply typography font sizes AND line heights
+    // NOTE: Must scale lineHeight too, otherwise text gets vertically clipped
+    // (font grows but container line height stays the same, cutting off descenders)
     if (fontScale !== 1.0) {
       typography.displayLg.fontSize = 40 * fontScale;
+      typography.displayLg.lineHeight = Math.round(44 * fontScale);
       typography.headlineMd.fontSize = 24 * fontScale;
+      typography.headlineMd.lineHeight = Math.round(28 * fontScale);
       typography.titleSm.fontSize = 18 * fontScale;
+      typography.titleSm.lineHeight = Math.round(25 * fontScale);
       typography.bodyMd.fontSize = 16 * fontScale;
+      typography.bodyMd.lineHeight = Math.round(25 * fontScale);
       typography.labelCaps.fontSize = 12 * fontScale;
+      typography.labelCaps.lineHeight = Math.round(12 * fontScale);
     }
 
     // 5. Classic Terminal — overrides ALL colors (highest priority, applied last)

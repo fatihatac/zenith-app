@@ -17,7 +17,7 @@ export default function ApiSettingsScreen() {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: 10,
+            gap: theme.spacing.xs + 2,
             paddingVertical: 16,
             borderRadius: theme.roundness.xl,
             borderWidth: 1,
@@ -25,7 +25,7 @@ export default function ApiSettingsScreen() {
             borderStyle: 'dashed'
         },
         addButtonText: { ...theme.typography.labelCaps, color: theme.colors.primary },
-        infoBox: { flexDirection: 'row', gap: 12, marginTop: 40, paddingHorizontal: 8 },
+        infoBox: { flexDirection: 'row', gap: theme.spacing.xs + 4, marginTop: theme.spacing.lg, paddingHorizontal: theme.spacing.xs },
         infoText: { ...theme.typography.bodyMd, fontSize: 12, color: theme.colors.onSurfaceVariant, flex: 1, lineHeight: 18 }
     }), [theme]);
 

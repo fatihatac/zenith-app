@@ -32,7 +32,7 @@ export default function AppearanceScreen() {
             color: theme.colors.outline,
             marginBottom: 16
         },
-        optionGrid: { flexDirection: 'row', gap: 12 },
+        optionGrid: { flexDirection: 'row', gap: theme.spacing.xs + 4 },
         card: {
             backgroundColor: theme.colors.surfaceContainerLow,
             borderRadius: theme.roundness.xl,
@@ -40,8 +40,8 @@ export default function AppearanceScreen() {
             borderColor: theme.colors.innerStroke,
             overflow: 'hidden'
         },
-        divider: { height: 1, backgroundColor: theme.colors.innerStroke, marginHorizontal: 16 },
-        experimentalCard: { padding: 16, marginTop: theme.spacing.md, backgroundColor: '#0A0A0A' },
+        divider: { height: 1, backgroundColor: theme.colors.innerStroke, marginHorizontal: theme.spacing.sm },
+        experimentalCard: { padding: theme.spacing.sm, marginTop: theme.spacing.md, backgroundColor: '#0A0A0A' },
         experimentalTitle: { ...theme.typography.labelCaps, color: theme.colors.emerald, marginBottom: 8 },
         experimentalDesc: { ...theme.typography.bodyMd, fontSize: 12, color: theme.colors.onSurfaceVariant, lineHeight: 18 },
         experimentalButton: {

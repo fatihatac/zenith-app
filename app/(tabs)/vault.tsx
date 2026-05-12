@@ -28,7 +28,7 @@ export default function VaultScreen() {
         },
         listContainer: {
             flexDirection: 'column',
-            gap: 12,
+            gap: theme.spacing.xs + 4,
         },
     }), [theme]);
 

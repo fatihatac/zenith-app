@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { View, StyleSheet, ViewStyle } from 'react-native';
 import { useThemeContext } from '@/contexts/ThemeContext';
+import { useAppearanceStore } from '@/store/appearanceStore';
 
 interface CardProps {
   children: React.ReactNode;
@@ -10,6 +11,7 @@ interface CardProps {
 
 export const Card = ({ children, style, padding }: CardProps) => {
   const theme = useThemeContext();
+  const { visualEffects } = useAppearanceStore();
   const resolvedPadding = padding ?? 'md';
 
   const styles = useMemo(() => StyleSheet.create({
@@ -22,8 +24,17 @@ export const Card = ({ children, style, padding }: CardProps) => {
     },
   }), [theme]);
 
+  const visualStyle: ViewStyle = visualEffects === 'full' ? {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 4,
+    borderColor: 'rgba(255, 255, 255, 0.12)',
+  } : {};
+
   return (
-    <View style={[styles.card, { padding: theme.spacing[resolvedPadding] }, style]}>
+    <View style={[styles.card, { padding: theme.spacing[resolvedPadding] }, visualStyle, style]}>
       {children}
     </View>
   );

@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 import { LucideIcon } from 'lucide-react-native';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { useThemeContext } from '@/contexts/ThemeContext';
+import { useAppearanceStore } from '@/store/appearanceStore';
 
 interface StatCardProps {
     icon: LucideIcon;
@@ -13,12 +14,13 @@ interface StatCardProps {
 
 export default function StatCard({ icon: Icon, label, value, subValue, color }: StatCardProps) {
     const theme = useThemeContext();
+    const { visualEffects } = useAppearanceStore();
     const resolvedColor = color ?? theme.colors.primary;
     const styles = useMemo(() => StyleSheet.create({
         statCard: {
             width: '48%',
             backgroundColor: theme.colors.surfaceContainerLow,
-            padding: 16,
+            padding: theme.spacing.sm,
             borderRadius: theme.roundness.md,
             borderWidth: 1,
             borderColor: theme.colors.innerStroke
@@ -26,8 +28,8 @@ export default function StatCard({ icon: Icon, label, value, subValue, color }: 
         statHeader: {
             flexDirection: 'row',
             alignItems: 'center',
-            gap: 6,
-            marginBottom: 8
+            gap: theme.spacing.unit + 2,
+            marginBottom: theme.spacing.xs
         },
         statLabel: {
             ...theme.typography.labelCaps,
@@ -46,8 +48,18 @@ export default function StatCard({ icon: Icon, label, value, subValue, color }: 
             marginTop: 2
         }
     }), [theme]);
+
+    const visualStyle: ViewStyle = visualEffects === 'full' ? {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        elevation: 4,
+        borderColor: 'rgba(255, 255, 255, 0.12)',
+    } : {};
+
     return (
-        <View style={styles.statCard}>
+        <View style={[styles.statCard, visualStyle]}>
             <View style={styles.statHeader}>
                 <Icon size={16} color={theme.colors.onSurfaceVariant} />
                 <Text style={styles.statLabel}>{label}</Text>

@@ -34,8 +34,8 @@ export default function AccountScreen() {
         identityRow: {
             flexDirection: 'row',
             alignItems: 'center',
-            padding: 20,
-            gap: 16
+            padding: theme.spacing.sm + 4,
+            gap: theme.spacing.sm
         },
         avatarPlaceholder: {
             width: 60,
@@ -71,7 +71,7 @@ export default function AccountScreen() {
         divider: {
             height: 1,
             backgroundColor: theme.colors.innerStroke,
-            marginHorizontal: 16
+            marginHorizontal: theme.spacing.sm
         },
         syncButton: {
             flexDirection: 'row',
@@ -80,7 +80,7 @@ export default function AccountScreen() {
             borderRadius: theme.roundness.xl,
             justifyContent: 'center',
             alignItems: 'center',
-            gap: 10,
+            gap: theme.spacing.xs + 2,
             marginTop: theme.spacing.lg
         },
         syncButtonText: {

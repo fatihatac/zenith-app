@@ -1,7 +1,8 @@
-import { useMemo } from 'react';
+import { useMemo, useRef, useEffect } from 'react';
 import { Lock } from 'lucide-react-native';
-import { StyleSheet, Text, View, ViewStyle, TextStyle } from 'react-native';
+import { Animated, Easing, StyleSheet, Text, View, ViewStyle, TextStyle } from 'react-native';
 import { useThemeContext } from '@/contexts/ThemeContext';
+import { useAppearanceStore } from '@/store/appearanceStore';
 import { VaultStatus } from '@/types/vault';
 
 interface VaultStatusCardProps {
@@ -10,6 +11,22 @@ interface VaultStatusCardProps {
 
 export const VaultStatusCard = ({ status }: VaultStatusCardProps) => {
   const theme = useThemeContext();
+  const { visualEffects } = useAppearanceStore();
+  const pulseAnim = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    if (visualEffects === 'full') {
+      const pulse = Animated.loop(
+        Animated.sequence([
+          Animated.timing(pulseAnim, { toValue: 0.6, duration: 1500, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
+          Animated.timing(pulseAnim, { toValue: 1, duration: 1500, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
+        ])
+      );
+      pulse.start();
+      return () => pulse.stop();
+    }
+  }, [visualEffects]);
+
   const styles = useMemo(() => StyleSheet.create<VaultStatusCardStyles>({
     card: {
       backgroundColor: theme.colors.surfaceContainerLow,
@@ -19,7 +36,7 @@ export const VaultStatusCard = ({ status }: VaultStatusCardProps) => {
       padding: theme.spacing.md,
       flexDirection: 'row',
       alignItems: 'center',
-      gap: 20,
+      gap: theme.spacing.sm + 4,
       marginBottom: 8,
     },
     iconContainer: {
@@ -33,7 +50,7 @@ export const VaultStatusCard = ({ status }: VaultStatusCardProps) => {
     },
     textContainer: {
       flexDirection: 'column',
-      gap: 4,
+      gap: theme.spacing.unit,
     },
     title: {
       ...theme.typography.titleSm,
@@ -51,14 +68,25 @@ export const VaultStatusCard = ({ status }: VaultStatusCardProps) => {
     },
   }), [theme]);
 
+  const visualStyle: ViewStyle = visualEffects === 'full' ? {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 4,
+    borderColor: 'rgba(255, 255, 255, 0.12)',
+  } : {};
+
   return (
-    <View style={styles.card}>
+    <View style={[styles.card, visualStyle]}>
       <View style={styles.iconContainer}>
         <Lock color={theme.colors.emerald} size={24} />
       </View>
       <View style={styles.textContainer}>
         <Text style={styles.title}>{status.title}</Text>
-        <Text style={styles.statusText}>{status.status}</Text>
+        <Animated.View style={{ opacity: pulseAnim }}>
+          <Text style={styles.statusText}>{status.status}</Text>
+        </Animated.View>
       </View>
     </View>
   );

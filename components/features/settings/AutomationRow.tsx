@@ -14,8 +14,8 @@ interface AutomationRowProps {
 export default function AutomationRow({ icon: Icon, title, desc, active }: AutomationRowProps) {
     const theme = useThemeContext();
     const styles = useMemo(() => StyleSheet.create({
-        row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 20 },
-        rowLead: { flexDirection: 'row', alignItems: 'flex-start', gap: 16, flex: 1 },
+        row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: theme.spacing.sm + 4 },
+        rowLead: { flexDirection: 'row', alignItems: 'flex-start', gap: theme.spacing.sm, flex: 1 },
         rowText: { flex: 1 },
         rowTitle: { ...theme.typography.titleSm, color: theme.colors.primary, marginBottom: 4 },
         rowDesc: { ...theme.typography.bodyMd, fontSize: 12, color: theme.colors.onSurfaceVariant, lineHeight: 18 }

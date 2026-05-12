@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { StyleSheet, Text, View, ViewStyle, TextStyle } from 'react-native';
 import { useThemeContext } from '@/contexts/ThemeContext';
+import { useAppearanceStore } from '@/store/appearanceStore';
 import { SignalIntel } from '@/types/signal';
 
 interface SignalCardProps {
@@ -9,14 +10,15 @@ interface SignalCardProps {
 
 export const SignalCard = ({ signal }: SignalCardProps) => {
   const theme = useThemeContext();
+  const { visualEffects } = useAppearanceStore();
   const styles = useMemo(() => StyleSheet.create<SignalCardStyles>({
     card: {
       backgroundColor: theme.colors.surfaceContainerLow,
       borderWidth: 1,
       borderColor: theme.colors.innerStroke,
       borderRadius: theme.roundness.xl,
-      padding: 24,
-      marginBottom: 16,
+      padding: theme.spacing.md,
+      marginBottom: theme.spacing.sm,
     },
     header: {
       flexDirection: 'row',
@@ -50,8 +52,17 @@ export const SignalCard = ({ signal }: SignalCardProps) => {
     },
   }), [theme]);
 
+  const visualStyle: ViewStyle = visualEffects === 'full' ? {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 4,
+    borderColor: 'rgba(255, 255, 255, 0.12)',
+  } : {};
+
   return (
-    <View style={styles.card}>
+    <View style={[styles.card, visualStyle]}>
       <View style={styles.header}>
         <Text style={styles.category}>{signal.category}</Text>
         <Text style={styles.timestamp}>{signal.timestamp}</Text>

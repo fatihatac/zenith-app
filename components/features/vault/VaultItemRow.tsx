@@ -16,7 +16,7 @@ export const VaultItemRow = ({ item }: VaultItemRowProps) => {
       borderWidth: 1,
       borderColor: theme.colors.innerStroke,
       borderRadius: theme.roundness.xl,
-      padding: 16,
+      padding: theme.spacing.sm,
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
@@ -25,11 +25,11 @@ export const VaultItemRow = ({ item }: VaultItemRowProps) => {
     contentLeft: {
       flexDirection: 'row',
       alignItems: 'center',
-      gap: 16,
+      gap: theme.spacing.sm,
     },
     textContainer: {
       flexDirection: 'column',
-      gap: 4,
+      gap: theme.spacing.unit,
     },
     title: {
       ...theme.typography.titleSm,

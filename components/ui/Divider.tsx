@@ -14,7 +14,7 @@ export const Divider = ({ style, color }: DividerProps) => {
   const styles = useMemo(() => StyleSheet.create({
     divider: {
       height: 1,
-      marginVertical: 20,
+      marginVertical: theme.spacing.sm + 4,
     },
   }), [theme]);
 

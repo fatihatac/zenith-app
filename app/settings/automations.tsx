@@ -20,9 +20,9 @@ export default function AutomationsScreen() {
             borderColor: theme.colors.innerStroke,
             overflow: 'hidden'
         },
-        divider: { height: 1, backgroundColor: theme.colors.innerStroke, marginHorizontal: 20 },
+        divider: { height: 1, backgroundColor: theme.colors.innerStroke, marginHorizontal: theme.spacing.sm + 4 },
         logicCard: {
-            padding: 20,
+            padding: theme.spacing.sm + 4,
             backgroundColor: 'rgba(255,255,255,0.03)',
             borderRadius: theme.roundness.lg,
             marginTop: 20,

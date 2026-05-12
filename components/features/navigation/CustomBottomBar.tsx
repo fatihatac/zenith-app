@@ -1,12 +1,34 @@
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { TAB_CONFIG } from '@/constants/navigation';
-import { Pressable, StyleSheet, View, ViewStyle } from 'react-native';
+import { Animated, Pressable, StyleSheet, View, ViewStyle } from 'react-native';
 import { useThemeContext } from '@/contexts/ThemeContext';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
+import { useAppearanceStore } from '@/store/appearanceStore';
 
 export const CustomBottomBar = ({ state, navigation }: BottomTabBarProps) => {
   const theme = useThemeContext();
   const styles = useMemo(() => createStyles(theme), [theme]);
+  const { visualEffects } = useAppearanceStore();
+
+  const tabScales = useRef<Map<string, Animated.Value>>(new Map()).current;
+
+  const getTabScale = (key: string) => {
+    if (!tabScales.has(key)) {
+      tabScales.set(key, new Animated.Value(1));
+    }
+    return tabScales.get(key)!;
+  };
+
+  const onTabPressIn = (key: string) => {
+    if (visualEffects === 'full') {
+      Animated.spring(getTabScale(key), { toValue: 0.96, useNativeDriver: true }).start();
+    }
+  };
+  const onTabPressOut = (key: string) => {
+    if (visualEffects === 'full') {
+      Animated.spring(getTabScale(key), { toValue: 1, friction: 3, useNativeDriver: true }).start();
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -32,12 +54,16 @@ export const CustomBottomBar = ({ state, navigation }: BottomTabBarProps) => {
             <Pressable
               key={route.key}
               onPress={onPress}
+              onPressIn={() => onTabPressIn(route.key)}
+              onPressOut={() => onTabPressOut(route.key)}
               style={[styles.tabButton, isFocused && styles.activeTabButton]}
             >
-              <Icon
-                color={isFocused ? theme.colors.primary : theme.colors.onSurfaceVariant}
-                size={24}
-              />
+              <Animated.View style={{ transform: [{ scale: getTabScale(route.key) }] }}>
+                <Icon
+                  color={isFocused ? theme.colors.primary : theme.colors.onSurfaceVariant}
+                  size={24}
+                />
+              </Animated.View>
             </Pressable>
           );
         })}
@@ -66,8 +92,8 @@ const createStyles = (theme: ReturnType<typeof useThemeContext>) =>
       flexDirection: 'row',
       justifyContent: 'space-around',
       alignItems: 'center',
-      paddingHorizontal: 24,
-      paddingVertical: 12,
+      paddingHorizontal: theme.spacing.md,
+      paddingVertical: theme.spacing.xs + 4,
       backgroundColor: theme.colors.surfaceContainer,
       borderWidth: 1,
       borderColor: theme.colors.innerStroke,
@@ -80,7 +106,7 @@ const createStyles = (theme: ReturnType<typeof useThemeContext>) =>
       width: '100%',
     },
     tabButton: {
-      padding: 12,
+      padding: theme.spacing.xs + 4,
       borderRadius: theme.roundness.full,
       alignItems: 'center',
       justifyContent: 'center',

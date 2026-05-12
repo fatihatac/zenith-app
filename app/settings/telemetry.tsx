@@ -25,7 +25,7 @@ export default function TelemetryScreen() {
         statsGrid: {
             flexDirection: 'row',
             flexWrap: 'wrap',
-            gap: 12,
+            gap: theme.spacing.xs + 4,
             marginBottom: theme.spacing.lg
         },
         sectionLabel: {
@@ -35,7 +35,7 @@ export default function TelemetryScreen() {
         },
         console: {
             backgroundColor: '#000',
-            padding: 16,
+            padding: theme.spacing.sm,
             borderRadius: theme.roundness.sm,
             minHeight: 220,
             borderWidth: 1,

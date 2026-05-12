@@ -26,12 +26,12 @@ export const SettingRow = ({
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      padding: 16,
+      padding: theme.spacing.sm,
     },
     rowLead: {
       flexDirection: 'row',
       alignItems: 'center',
-      gap: 12,
+      gap: theme.spacing.xs + 4,
     },
     rowLabel: {
       ...theme.typography.titleSm,
