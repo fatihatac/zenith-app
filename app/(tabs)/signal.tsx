@@ -9,6 +9,7 @@ export default function SignalScreen() {
     const theme = useThemeContext();
     const styles = useMemo(() => StyleSheet.create({
         container: {
+            position: 'relative',
             flex: 1,
             backgroundColor: theme.colors.background,
         },
@@ -31,4 +32,3 @@ export default function SignalScreen() {
         </ScrollView>
     );
 }
-

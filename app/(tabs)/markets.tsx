@@ -9,6 +9,7 @@ export default function MarketsScreen() {
     const theme = useThemeContext();
     const styles = useMemo(() => StyleSheet.create({
         container: {
+            position: 'relative',
             flex: 1,
             backgroundColor: theme.colors.background,
         },
@@ -44,4 +45,3 @@ export default function MarketsScreen() {
         </ScrollView>
     );
 }
-
