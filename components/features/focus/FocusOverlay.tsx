@@ -1,4 +1,4 @@
-import React from 'react';
+import { useMemo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useFocusStore } from '@/store/focusStore';
 import { useThemeContext } from '@/contexts/ThemeContext';
@@ -7,7 +7,7 @@ export default function FocusOverlay() {
   const isActive = useFocusStore((state) => state.isActive);
   const theme = useThemeContext();
 
-  const styles = React.useMemo(
+  const styles = useMemo(
     () =>
       StyleSheet.create({
         overlay: {

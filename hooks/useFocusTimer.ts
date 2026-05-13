@@ -50,7 +50,7 @@ export const useFocusTimer = () => {
         intervalRef.current = null;
       }
     };
-  }, [isActive, timeLeft, tick]);
+  }, [isActive, tick]);
 
   // --------------------------------------------------
   // 2. AppState background/foreground sync

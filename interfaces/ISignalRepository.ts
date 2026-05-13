@@ -1,5 +1,5 @@
-import { SignalIntel } from '@/types/signal';
+import { FeedItem } from '@/types/signal';
 
 export interface ISignalRepository {
-  getSignals(): Promise<SignalIntel[]>;
+  getSignals(): Promise<{ items: FeedItem[]; errors: { sourceId: string; error: string }[] }>;
 }
